@@ -8,7 +8,7 @@ import java.util.Calendar;
 public class Main {
 
     public static void main(String[] args) throws ParseException {
-        Db d = new Db("V4u.db");
+        Data_base d = new Data_base("V4u.db");
         d.createUsersTable();
         Calendar calendar = Calendar.getInstance();
         calendar.clear();

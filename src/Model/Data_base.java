@@ -4,11 +4,11 @@ import java.sql.*;
 import java.util.*;
 import java.util.Date;
 
-public class Db {
+public class Data_base {
 
     private String db_Name;
 
-    public Db(String fileName) {
+    public Data_base(String fileName) {
         db_Name = fileName;
         String url = "jdbc:sqlite:" + fileName;
         Connection c = null;
