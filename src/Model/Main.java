@@ -25,7 +25,6 @@ public class Main {
                 System.out.print(s+" ");
             }
             System.out.println();
-            System.out.println();
         }
         System.out.println();
         d.Update("USERS", "City", "Beer Sheva","User_name", "sankerr");
@@ -37,5 +36,9 @@ public class Main {
             }
             System.out.println();
         }
+    }
+
+    public void str(){
+        
     }
 }
