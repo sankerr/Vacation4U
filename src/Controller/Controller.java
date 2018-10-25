@@ -1,9 +1,15 @@
 package Controller;
 
 import Model.IModel;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
@@ -28,7 +34,25 @@ public class Controller implements IController, Observer {
 
     //login button function
     public void login () {
-        iModel.login(txt_id_user.getText(), txt_id_password.getText());
+        //iModel.login(txt_id_user.getText(), txt_id_password.getText());
+
+
+        try {
+            //openning new Stage to show in
+            Stage stage = new Stage();
+            stage.setTitle("RUD");
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            Parent root = fxmlLoader.load(getClass().getResource("Rud.fxml").openStream());
+            Scene scene = new Scene(root, 400, 400);
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     //sign up button function

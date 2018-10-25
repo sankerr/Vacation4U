@@ -25,7 +25,7 @@ public class Main extends Application implements Initializable {
     private IController controller;
 
     // images
-    public javafx.scene.image.ImageView img_logo;
+    //public javafx.scene.image.ImageView img_logo;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -48,6 +48,6 @@ public class Main extends Application implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
         Image logo = new Image(Main.class.getClassLoader().getResourceAsStream("logo.jpeg"));
-        img_logo.setImage(logo);
+        //img_logo.setImage(logo);
     }
 }
