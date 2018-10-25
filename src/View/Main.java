@@ -23,20 +23,6 @@ public class Main extends Application implements Initializable {
 
     // images
     public ImageView img_logo;
-    // buttons
-    public Button btn_login;
-    public Button btn_sign_up;
-    // text fields
-    public TextField txt_id_user;
-    public TextField txt_id_password;
-    public TextField txt_user_first_name;
-    public TextField txt_user_last_name;
-    public TextField txt_new_username;
-    public TextField txt_user_city;
-    public TextField txt_new_user_password;
-    // date picker
-    public DatePicker date_picker;
-
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -46,25 +32,13 @@ public class Main extends Application implements Initializable {
         primaryStage.show();
     }
 
-
     public static void main(String[] args) {
         launch(args);
     }
 
     public void initialize(URL location, ResourceBundle resources) {
         setImage(img_logo,"Resources/logo.jpeg");
-        btn_sign_up.setDisable(true);
     }
-    //login button function
-    public void login () {
-
-    }
-
-    //sign up button function
-    public void signUp () {
-
-    }
-
 
     // this function will set the logo when app starts
     public void setImage(ImageView imageView, String filePath) {
