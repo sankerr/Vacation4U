@@ -4,8 +4,13 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class ReadController {
+
+    //Objects
+    private Stage stage;
+
     // text fields
     public TextField txt_username;
     // buttons
@@ -29,5 +34,10 @@ public class ReadController {
             alert.showAndWait();
         }
 
+    }
+
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 }
