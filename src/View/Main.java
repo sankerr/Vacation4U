@@ -1,5 +1,8 @@
 package View;
 
+import Controller.Controller;
+import Model.IModel;
+import Model.Model;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,13 +25,20 @@ public class Main extends Application implements Initializable {
     private IController controller;
 
     // images
-    public ImageView img_logo;
+    public javafx.scene.image.ImageView img_logo;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Model model = new Model();
+        //--------------
         primaryStage.setTitle("Vication4U");
-        primaryStage.setScene(new Scene(root, 600, 450));
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Parent root = fxmlLoader.load(getClass().getResource("sample.fxml").openStream());
+        Scene scene = new Scene(root, 600, 450);
+        primaryStage.setScene(scene);
+        //-------
+        Controller controller = fxmlLoader.getController();
+        model.addObserver(controller);
         primaryStage.show();
     }
 
@@ -37,14 +47,7 @@ public class Main extends Application implements Initializable {
     }
 
     public void initialize(URL location, ResourceBundle resources) {
-        setImage(img_logo,"Resources/logo.jpeg");
+        Image logo = new Image(Main.class.getClassLoader().getResourceAsStream("logo.jpeg"));
+        img_logo.setImage(logo);
     }
-
-    // this function will set the logo when app starts
-    public void setImage(ImageView imageView, String filePath) {
-        File file = new File(filePath);
-        Image image = new Image(file.toURI().toString());
-        imageView.setImage(image);
-    }
-
 }

@@ -1,12 +1,14 @@
 package Controller;
 
 import Model.IModel;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 
-public class Controller implements IController{
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Optional;
+
+public class Controller implements IController, Observer {
 
     public IModel iModel;
 
@@ -33,5 +35,18 @@ public class Controller implements IController{
     public void signUp () {
 
 
+    }
+
+    public void update(Observable o, Object arg) {
+
+        switch((String)arg){
+
+            case "login failed":
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Login failed");
+                Optional<ButtonType> reasult = alert.showAndWait();
+                if(reasult.get() == ButtonType.OK)
+                    alert.close();
+        }
     }
 }
