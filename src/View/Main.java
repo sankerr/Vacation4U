@@ -38,6 +38,7 @@ public class Main extends Application implements Initializable {
         primaryStage.setScene(scene);
         //-------
         Controller controller = fxmlLoader.getController();
+        controller.setModel(model);
         model.addObserver(controller);
         primaryStage.show();
     }

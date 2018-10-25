@@ -11,10 +11,10 @@ public class Model extends Observable implements IModel {
 
     public Data_base db;
     public String userName;
-    //public Controller controller;
 
     public Model(){
         db = new Data_base("V4u.db");
+        db.createUsersTable();
     }
 
 
@@ -23,6 +23,7 @@ public class Model extends Observable implements IModel {
         boolean login = db.checkPassword(userName, userPassword);
         if(login){
             this.userName = userName;
+            setChanged();
             notifyObservers("login succeeded");
         }
         else{
@@ -32,15 +33,17 @@ public class Model extends Observable implements IModel {
 
     }
 
-    public void signUp(String firstName, String lastName, String userName, String city, String password, String date){
+    public void signUp(String[] values){
 
-        if(db.Insert("USERS", userName+password+date+firstName+lastName+city)) {
-            this.userName = userName;
+        if(db.Insert("USERS", values)) {
+            this.userName = values[0];
+            setChanged();
             notifyObservers("signUp succeeded");
         }
         else{
             setChanged();
             notifyObservers("signUp failed");
         }
+
     }
 }

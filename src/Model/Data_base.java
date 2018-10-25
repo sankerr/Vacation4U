@@ -2,7 +2,6 @@ package Model;
 
 import java.sql.*;
 import java.util.*;
-import java.util.Date;
 
 public class Data_base {
 
@@ -31,7 +30,7 @@ public class Data_base {
             String sql = "CREATE TABLE USERS " +
                     "(User_name VARCHAR(20) PRIMARY KEY UNIQUE NOT NULL," +
                     " Password VARCHAR(8) NOT NULL, " +
-                    " Birthday INTEGER NOT NULL, " +
+                    " Birthday DATE NOT NULL, " +
                     " First_name VARCHAR(20) NOT NULL, " +
                     " Last_name VARCHAR(20) NOT NULL, " +
                     " City VARCHAR(30) NOT NULL)";
@@ -48,13 +47,17 @@ public class Data_base {
         }
     }
 
-    public boolean Insert(String table, String val) {
+    public boolean Insert(String table, String[] values) {
         Connection c = null;
         Statement stmt = null;
 
         if (table == "USERS") {
             try {
-                String sql = "INSERT INTO USERS (User_name,Password,Birthday,First_name,Last_name,City) " + val;
+                String sql = "INSERT INTO USERS (User_name,Password,Birthday,First_name,Last_name,City) VALUES (";
+                for(int i=0;i<values.length-1;i++) {
+                    sql += "'" + values[i] + "', ";
+                }
+                sql+="'"+values[values.length-1]+"');";
                 Class.forName("org.sqlite.JDBC");
                 c = DriverManager.getConnection("jdbc:sqlite:" + this.db_Name);
                 c.setAutoCommit(false);
@@ -64,6 +67,8 @@ public class Data_base {
                 c.commit();
                 c.close();
             } catch (Exception e) {
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+
                 try {
                     c.close();
                     stmt.close();
@@ -97,7 +102,7 @@ public class Data_base {
                 while (rs.next()) {
                     String user_Name = rs.getString("User_name");
                     String password = rs.getString("Password");
-                    Date b_Date = rs.getDate("Birthday");
+                    String b_Date = rs.getString("Birthday");
                     String f_Name = rs.getString("First_name");
                     String l_Name = rs.getString("Last_name");
                     String city = rs.getString("City");

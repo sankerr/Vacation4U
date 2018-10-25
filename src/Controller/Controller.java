@@ -2,6 +2,7 @@ package Controller;
 
 import Model.IModel;
 import Model.Model;
+import javafx.beans.binding.BooleanBinding;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 
@@ -31,6 +32,21 @@ public class Controller implements IController, Observer {
     public void setModel(Model model){
         this.model = model;
     }
+
+    public void onKeyReleasedLogin(){
+        boolean releasedLogin = (txt_id_user.getText().isEmpty() || txt_id_password.getText().isEmpty());
+        btn_login.setDisable(releasedLogin);
+    }
+
+    public void onKeyReleasedSignUp(){
+
+        boolean releasedSignUp = (txt_user_first_name.getText().isEmpty() || txt_user_last_name.getText().isEmpty() ||
+                txt_new_username.getText().isEmpty() || txt_user_city.getText().isEmpty() ||
+                txt_new_user_password.getText().isEmpty());
+        btn_sign_up.setDisable(releasedSignUp);
+
+    }
+
     //login button function
     public void login () {
         model.login(txt_id_user.getText(), txt_id_password.getText());
@@ -38,9 +54,10 @@ public class Controller implements IController, Observer {
 
     //sign up button function
     public void signUp () {
-        model.signUp(txt_user_first_name.getText() , txt_user_last_name.getText()
-                , txt_new_username.getText() , txt_user_city.getText(), txt_new_user_password.getText(),
-                date_picker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        String[] values = {txt_new_username.getText() , txt_new_user_password.getText()
+                , date_picker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                , txt_user_first_name.getText(), txt_user_last_name.getText(), txt_user_city.getText()};
+        model.signUp(values);
     }
 
     @Override
@@ -52,6 +69,12 @@ public class Controller implements IController, Observer {
                 Optional<ButtonType> reasult = alert.showAndWait();
                 if(reasult.get() == ButtonType.OK)
                     alert.close();
+
+            case "login succeeded":
+
+            case "signUp failed":
+
+            case "signUp succeeded":
         }
     }
 }
