@@ -17,6 +17,7 @@ import java.util.ResourceBundle;
 
 public class RUDController implements Observer{
 
+
     private ReadController readController;
     private UpdateController updateController;
 
