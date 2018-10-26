@@ -1,12 +1,8 @@
 package Model;
 
-import Controller.Controller;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-
 import java.util.ArrayList;
+
 import java.util.Observable;
-import java.util.Optional;
 
 public class Model extends Observable implements IModel {
 

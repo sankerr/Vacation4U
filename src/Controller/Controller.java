@@ -4,6 +4,7 @@ import Model.IModel;
 import Model.Model;
 import javafx.beans.binding.BooleanBinding;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.time.format.DateTimeFormatter;
@@ -29,8 +30,16 @@ public class Controller implements IController, Observer {
     // date picker
     public javafx.scene.control.DatePicker date_picker;
 
+    public javafx.scene.image.ImageView img_logo;
+
     public void setModel(Model model){
         this.model = model;
+        try {
+            Image logo = new Image(Controller.class.getClassLoader().getResourceAsStream("about_company.jpg"));
+            img_logo.setImage(logo);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void onKeyReleasedLogin(){
@@ -39,10 +48,10 @@ public class Controller implements IController, Observer {
     }
 
     public void onKeyReleasedSignUp(){
-
         boolean releasedSignUp = (txt_user_first_name.getText().isEmpty() || txt_user_last_name.getText().isEmpty() ||
                 txt_new_username.getText().isEmpty() || txt_user_city.getText().isEmpty() ||
-                txt_new_user_password.getText().isEmpty());
+                txt_new_user_password.getText().isEmpty() ||
+                date_picker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")).isEmpty());
         btn_sign_up.setDisable(releasedSignUp);
 
     }
@@ -64,17 +73,25 @@ public class Controller implements IController, Observer {
     public void update(Observable o, Object arg) {
         switch((String)arg){
             case "login failed":
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Login failed");
-                Optional<ButtonType> reasult = alert.showAndWait();
-                if(reasult.get() == ButtonType.OK)
-                    alert.close();
+                showAlert("Login Error", "The user name or password is incorrect, please try again.");
+                break;
+
+            case "signUp failed":
+                showAlert("signUp Error","");
+                break;
 
             case "login succeeded":
 
-            case "signUp failed":
-
             case "signUp succeeded":
         }
+    }
+
+    public void showAlert(String title, String headerText){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(headerText);
+        Optional<ButtonType> reasult = alert.showAndWait();
+        if(reasult.get() == ButtonType.OK)
+            alert.close();
     }
 }

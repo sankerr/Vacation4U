@@ -15,7 +15,6 @@
 
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Controller">
   <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="144.66665649414062" minWidth="10.0" prefWidth="11.0" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="362.0" minWidth="10.0" prefWidth="219.33331298828125" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="325.66668701171875" minWidth="10.0" prefWidth="325.66668701171875" />
   </columnConstraints>
@@ -27,8 +26,8 @@
     <RowConstraints maxHeight="24.66668701171875" minHeight="10.0" prefHeight="12.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <ImageView fx:id="img_logo" fitHeight="204.0" fitWidth="209.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <VBox alignment="TOP_CENTER" prefHeight="252.0" prefWidth="64.0" spacing="10.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+      <ImageView fx:id="img_logo" fitHeight="242.0" fitWidth="273.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+      <VBox alignment="TOP_CENTER" prefHeight="252.0" prefWidth="64.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <children>
             <Label graphicTextGap="6.0" text="Create a New Account" />
             <HBox prefHeight="28.0" prefWidth="87.0" spacing="10.0">
@@ -43,7 +42,7 @@
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
                <children>
                   <Label text="Date of Birth:" />
-                  <DatePicker fx:id="date_picker" prefHeight="26.0" prefWidth="130.0" />
+                  <DatePicker fx:id="date_picker" onMouseClicked="#onKeyReleasedSignUp" prefHeight="26.0" prefWidth="130.0" />
                </children>
             </HBox>
          </children>
@@ -56,12 +55,12 @@
          <padding>
             <Insets top="40.0" />
          </padding></VBox>
-      <Button fx:id="btn_sign_up" disable="true" layoutX="473.0" layoutY="44.0" mnemonicParsing="false" onAction="#signUp" text="Sign Up" GridPane.columnIndex="2" GridPane.rowIndex="3">
+      <Button fx:id="btn_sign_up" disable="true" layoutX="473.0" layoutY="44.0" mnemonicParsing="false" onAction="#signUp" text="Sign Up" GridPane.columnIndex="1" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets left="100.0" />
          </GridPane.margin>
       </Button>
-      <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+      <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
             <TextField fx:id="txt_id_user" onKeyReleased="#onKeyReleasedLogin" prefHeight="25.0" prefWidth="112.0" promptText="Username" />
             <PasswordField fx:id="txt_id_password" onKeyReleased="#onKeyReleasedLogin" prefHeight="25.0" prefWidth="122.0" promptText="Password" />
