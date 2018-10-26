@@ -2,11 +2,16 @@ package Controller;
 
 import Model.IModel;
 import Model.Model;
-import javafx.beans.binding.BooleanBinding;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.Observable;
 import java.util.Observer;
@@ -50,8 +55,8 @@ public class Controller implements IController, Observer {
     public void onKeyReleasedSignUp(){
         boolean releasedSignUp = (txt_user_first_name.getText().isEmpty() || txt_user_last_name.getText().isEmpty() ||
                 txt_new_username.getText().isEmpty() || txt_user_city.getText().isEmpty() ||
-                txt_new_user_password.getText().isEmpty() ||
-                date_picker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")).isEmpty());
+                txt_new_user_password.getText().isEmpty() /*||
+                date_picker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")).isEmpty()*/);
         btn_sign_up.setDisable(releasedSignUp);
 
     }
@@ -81,8 +86,12 @@ public class Controller implements IController, Observer {
                 break;
 
             case "login succeeded":
+                openRud();
+                break;
 
             case "signUp succeeded":
+                openRud();
+                break;
         }
     }
 
@@ -93,5 +102,18 @@ public class Controller implements IController, Observer {
         Optional<ButtonType> reasult = alert.showAndWait();
         if(reasult.get() == ButtonType.OK)
             alert.close();
+    }
+    public void openRud(){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            Parent root = fxmlLoader.load(getClass().getResource("/View/Rud.fxml").openStream());
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("ABC");
+            stage.setScene(new Scene(root, 600, 450));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
