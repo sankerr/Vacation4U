@@ -1,5 +1,7 @@
 package Controller;
 
+import Model.IModel;
+import Model.Model;
 import View.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -17,7 +19,7 @@ import java.util.ResourceBundle;
 
 public class RUDController implements Observer{
 
-
+    private IModel model;
     private ReadController readController;
     private UpdateController updateController;
 
@@ -36,12 +38,15 @@ public class RUDController implements Observer{
             stage.setTitle("Edit Profile");
             FXMLLoader fxmlLoader = new FXMLLoader();
             Parent root = fxmlLoader.load(getClass().getResource("/View/Update.fxml").openStream());
+            root.setStyle("-fx-background-color: white");
             Scene scene = new Scene(root, 600, 500);
             stage.setScene(scene);
 
             //loading the controllers of the new stage:
             UpdateController updateController = fxmlLoader.getController();
             this.updateController = updateController;
+            updateController.setModel(model);
+            ((Model)model).addObserver(updateController);
             updateController.setStage(stage);
 
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
@@ -51,19 +56,22 @@ public class RUDController implements Observer{
         }
     }
 
-    public void SearchFunction(ActionEvent actionEvent) {
+    public void SearchFunction() {
         try {
             //openning new Stage to show in
             Stage stage = new Stage();
             stage.setTitle("Search");
             FXMLLoader fxmlLoader = new FXMLLoader();
             Parent root = fxmlLoader.load(getClass().getResource("/View/Read.fxml").openStream());
+            root.setStyle("-fx-background-color: white");
             Scene scene = new Scene(root, 500, 180);
             stage.setScene(scene);
 
             //loading the controllers of the new stage:
             ReadController readController = fxmlLoader.getController();
             this.readController = readController;
+            readController.setModel(model);
+            ((Model)model).addObserver(readController);
             readController.setStage(stage);
 
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
@@ -81,5 +89,9 @@ public class RUDController implements Observer{
     @Override
     public void update(java.util.Observable o, Object arg) {
 
+    }
+
+    public void setModel(IModel model) {
+        this.model = model;
     }
 }

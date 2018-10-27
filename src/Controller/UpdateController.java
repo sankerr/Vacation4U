@@ -17,7 +17,7 @@ public class UpdateController implements Observer{
         this.stage = stage;
     }
 
-    public void setModel(Model model){
+    public void setModel(IModel model){
         this.model = model;
     }
 

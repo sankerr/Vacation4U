@@ -22,8 +22,8 @@ public class Data_base {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection(url);
         } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+            //System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            //System.exit(0);
         }
     }
 
@@ -83,7 +83,7 @@ public class Data_base {
                 c.commit();
                 c.close();
             } catch (Exception e) {
-                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                //System.err.println(e.getClass().getName() + ": " + e.getMessage());
 
                 try {
                     c.close();
@@ -139,7 +139,7 @@ public class Data_base {
                 c.close();
             }
         } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            //System.err.println(e.getClass().getName() + ": " + e.getMessage());
 
         }
 
@@ -174,7 +174,7 @@ public class Data_base {
 
 
         } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            //System.err.println(e.getClass().getName() + ": " + e.getMessage());
             return false;
         }
         return true;

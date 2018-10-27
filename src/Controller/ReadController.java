@@ -23,7 +23,7 @@ public class ReadController implements Observer{
     // buttons
     public Button btn_search;
 
-    public void SearchUser(ActionEvent actionEvent) {
+    public void SearchUser() {
         String userName = txt_username.getText();
         if((userName != null) && (!userName.equals(""))){//if the user wrote something:
             model.search(userName);
@@ -31,45 +31,52 @@ public class ReadController implements Observer{
         else {//if the text field is empty:
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
-            alert.setContentText("you need to fill the text field");
+            alert.setHeaderText("you need to fill the text field");
             alert.showAndWait();
         }
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        if(o == model) {
-            ArrayList<String[]> select = (ArrayList<String[]>)arg;
-            if(select.size() > 0) {//if we found the user we search:
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("User Info");
+        try {
+            if(((Object[])arg)[0].equals("read")){
+                ArrayList<String[]> select = (ArrayList<String[]>)((Object[])arg)[1];
+                if(select.size() > 0) {//if we found the user we search:
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("User Info");
+                    alert.setHeaderText("Search result");
 
-                //getting the data from the array list
-                String data = "";
-                for (String[] str:select){
-                    for (String s:str){
-                        data = data + s + " ";
+                    //getting the data from the array list
+                    String data = "";
+                    for (String[] str:select){
+                        for (String s:str){
+                            data = data + s + " ";
+                        }
+                        data = data + "\n\r";
                     }
-                    data = data + "\n";
-                }
 
-                alert.setContentText(data);
-                alert.showAndWait();
+                    alert.setContentText(data);
+                    alert.showAndWait();
+                }
+                else {//if the select returned null row:
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("User Info");
+                    alert.setHeaderText("User not found");
+                    alert.showAndWait();
+                }
             }
-            else {//if the select returned null row:
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("User Info");
-                alert.setContentText("User not found");
-                alert.showAndWait();
-            }
+        } catch (Exception e){
+
         }
+
     }
+
 
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
-    public void setModel(Model model){
+    public void setModel(IModel model){
         this.model = model;
     }
 

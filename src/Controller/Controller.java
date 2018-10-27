@@ -100,23 +100,29 @@ public class Controller implements IController, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        switch((String)arg){
-            case "login failed":
-                showAlert("Login Error", "The user name or password is incorrect, please try again.");
-                break;
+        try{
+            switch((String)arg){
+                case "login failed":
+                    showAlert("Login Error", "The user name or password is incorrect, please try again.");
+                    break;
 
-            case "signUp failed":
-                showAlert("signUp Error","");
-                break;
+                case "signUp failed":
+                    showAlert("signUp Error","Registration failed\n\r" +
+                            "Please try a new username");
+                    break;
 
-            case "login succeeded":
-                openRud();
-                break;
+                case "login succeeded":
+                    openRud();
+                    break;
 
-            case "signUp succeeded":
-                openRud();
-                break;
+                case "signUp succeeded":
+                    openRud();
+                    break;
+            }
+        } catch (Exception e){
+
         }
+
     }
 
     public void showAlert(String title, String headerText){
@@ -127,6 +133,7 @@ public class Controller implements IController, Observer {
         if(reasult.get() == ButtonType.OK)
             alert.close();
     }
+
     public void openRud(){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -135,6 +142,9 @@ public class Controller implements IController, Observer {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("ABC");
             stage.setScene(new Scene(root, 600, 450));
+            root.setStyle("-fx-background-color: white");
+            RUDController controller = fxmlLoader.getController();
+            controller.setModel(model);
             Stage prim = (Stage) btn_sign_up.getScene().getWindow();
             prim.close();
             stage.show();

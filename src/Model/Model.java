@@ -47,6 +47,8 @@ public class Model extends Observable implements IModel {
     @Override
     public void search(String userToSearch) {
         ArrayList<String[]> select = db.Read("USERS","User_name",userToSearch);
-        notifyObservers(select);
+        setChanged();
+        Object[] o = {"read", select};
+        notifyObservers(o);
     }
 }
