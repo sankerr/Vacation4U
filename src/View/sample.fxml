@@ -7,6 +7,7 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -63,9 +64,9 @@
         <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
             <children>
                 <TextField fx:id="txt_id_user" onKeyReleased="#onKeyReleasedLogin" prefHeight="25.0" prefWidth="112.0" promptText="Username">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets></TextField>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets></TextField>
                 <PasswordField fx:id="txt_id_password" onKeyReleased="#onKeyReleasedLogin" prefHeight="25.0" prefWidth="122.0" promptText="Password" />
                 <Button fx:id="btn_login" disable="true" mnemonicParsing="false" onAction="#login" text="Login" />
             </children>

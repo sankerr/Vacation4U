@@ -20,6 +20,7 @@ import java.util.ResourceBundle;
 public class RUDController implements Observer{
 
     private IModel model;
+    private String user_name;
     private ReadController readController;
     private UpdateController updateController;
 
@@ -91,7 +92,7 @@ public class RUDController implements Observer{
 
     }
 
-    public void setModel(IModel model) {
-        this.model = model;
-    }
+    public void setModel(IModel model) { this.model = model; }
+
+    public void setUser_name(String user_name){ this.user_name = user_name; }
 }

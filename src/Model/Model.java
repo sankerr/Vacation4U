@@ -20,26 +20,29 @@ public class Model extends Observable implements IModel {
         boolean login = db.checkPassword(userName, userPassword);
         if(login){
             this.userName = userName;
+            Object[] args = {"login succeeded"};
             setChanged();
-            notifyObservers("login succeeded");
+            notifyObservers(args);
         }
         else{
+            Object[] args = {"login failed"};
             setChanged();
-            notifyObservers("login failed");
+            notifyObservers(args);
         }
 
     }
 
     public void signUp(String[] values){
-
         if(db.Insert("USERS", values)) {
             this.userName = values[0];
+            Object[] args = {"signUp succeeded"};
             setChanged();
-            notifyObservers("signUp succeeded");
+            notifyObservers(args);
         }
         else{
+            Object[] args = {"signUp failed"};
             setChanged();
-            notifyObservers("signUp failed");
+            notifyObservers(args);
         }
 
     }
@@ -47,8 +50,8 @@ public class Model extends Observable implements IModel {
     @Override
     public void search(String userToSearch) {
         ArrayList<String[]> select = db.Read("USERS","User_name",userToSearch);
+        Object[] args = {"read", select};
         setChanged();
-        Object[] o = {"read", select};
-        notifyObservers(o);
+        notifyObservers(args);
     }
 }

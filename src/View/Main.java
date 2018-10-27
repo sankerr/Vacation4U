@@ -22,11 +22,6 @@ import Controller.IController;
 
 public class Main extends Application implements Initializable {
 
-    private IController controller;
-
-    // images
-    //public javafx.scene.image.ImageView img_logo;
-
     @Override
     public void start(Stage primaryStage) throws Exception{
         Model model = new Model();
@@ -37,6 +32,7 @@ public class Main extends Application implements Initializable {
         Scene scene = new Scene(root, 600, 450);
         primaryStage.setScene(scene);
         root.setStyle("-fx-background-color: white");
+        primaryStage.setResizable(false);
         //-------
         Controller controller = fxmlLoader.getController();
         controller.setModel(model);

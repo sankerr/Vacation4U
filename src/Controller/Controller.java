@@ -101,7 +101,9 @@ public class Controller implements IController, Observer {
     @Override
     public void update(Observable o, Object arg) {
         try{
-            switch((String)arg){
+            Object obj = ((Object[])arg)[0];
+            String str = (String)obj;
+            switch(str){
                 case "login failed":
                     showAlert("Login Error", "The user name or password is incorrect, please try again.");
                     break;
@@ -112,11 +114,11 @@ public class Controller implements IController, Observer {
                     break;
 
                 case "login succeeded":
-                    openRud();
+                    openRud(txt_id_user.getText());
                     break;
 
                 case "signUp succeeded":
-                    openRud();
+                    openRud(txt_new_username.getText());
                     break;
             }
         } catch (Exception e){
@@ -134,7 +136,7 @@ public class Controller implements IController, Observer {
             alert.close();
     }
 
-    public void openRud(){
+    public void openRud(String user_name){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             Parent root = fxmlLoader.load(getClass().getResource("/View/Rud.fxml").openStream());
@@ -145,6 +147,7 @@ public class Controller implements IController, Observer {
             root.setStyle("-fx-background-color: white");
             RUDController controller = fxmlLoader.getController();
             controller.setModel(model);
+            controller.setUser_name(user_name);
             Stage prim = (Stage) btn_sign_up.getScene().getWindow();
             prim.close();
             stage.show();
