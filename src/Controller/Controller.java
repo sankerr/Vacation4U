@@ -3,6 +3,8 @@ package Controller;
 import Model.IModel;
 import Model.Model;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -37,15 +39,37 @@ public class Controller implements IController, Observer {
 
     public javafx.scene.image.ImageView img_logo;
 
+    public javafx.scene.layout.GridPane grid_pane;
+
+
     public void setModel(Model model){
         this.model = model;
         try {
-            Image logo = new Image(Controller.class.getClassLoader().getResourceAsStream("about_company.jpg"));
+            Image logo = new Image(Controller.class.getClassLoader().getResourceAsStream("logo.jpeg"));
             img_logo.setImage(logo);
+            /*
+            grid_pane.heightProperty().addListener(new ChangeListener<Number>() {
+                @Override
+                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                    double heightChange = (double)newValue - (double)oldValue;
+                    btn_login.setPrefHeight(btn_login.getPrefHeight() + (heightChange));
+                     btn_sign_up.setPrefHeight(btn_sign_up.getPrefHeight() + (heightChange));
+                }
+            });
+            grid_pane.widthProperty().addListener(new ChangeListener<Number>() {
+                @Override
+                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                    double widthChange = (double)newValue - (double)oldValue;
+                    btn_login.setPrefWidth(btn_login.getPrefWidth() + (widthChange));
+                    btn_sign_up.setPrefWidth(btn_sign_up.getPrefWidth() + (widthChange));
+                }
+            });*/
         }catch (Exception e) {
             e.printStackTrace();
         }
+
     }
+
 
     public void onKeyReleasedLogin(){
         boolean releasedLogin = (txt_id_user.getText().isEmpty() || txt_id_password.getText().isEmpty());
@@ -111,6 +135,8 @@ public class Controller implements IController, Observer {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("ABC");
             stage.setScene(new Scene(root, 600, 450));
+            Stage prim = (Stage) btn_sign_up.getScene().getWindow();
+            prim.close();
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

@@ -36,7 +36,7 @@ public class RUDController implements Observer{
             stage.setTitle("Edit Profile");
             FXMLLoader fxmlLoader = new FXMLLoader();
             Parent root = fxmlLoader.load(getClass().getResource("/View/Update.fxml").openStream());
-            Scene scene = new Scene(root, 500, 500);
+            Scene scene = new Scene(root, 600, 500);
             stage.setScene(scene);
 
             //loading the controllers of the new stage:

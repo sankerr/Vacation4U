@@ -36,6 +36,7 @@ public class Main extends Application implements Initializable {
         Parent root = fxmlLoader.load(getClass().getResource("sample.fxml").openStream());
         Scene scene = new Scene(root, 600, 450);
         primaryStage.setScene(scene);
+        root.setStyle("-fx-background-color: white");
         //-------
         Controller controller = fxmlLoader.getController();
         controller.setModel(model);
