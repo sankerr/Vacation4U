@@ -3,17 +3,10 @@ package Model;
 import java.sql.*;
 import java.util.*;
 
-/**
- * The system database
- */
 public class Data_base {
 
-    private String db_Name;//the database name
+    private String db_Name;
 
-    /**
-     * Constractor
-     * @param fileName - database name
-     */
     public Data_base(String fileName) {
         db_Name = fileName;
         String url = "jdbc:sqlite:" + fileName;
@@ -22,14 +15,11 @@ public class Data_base {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection(url);
         } catch (Exception e) {
-            //System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            //System.exit(0);
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
         }
     }
 
-    /**
-     * create the users table if not exists
-     */
     public void createUsersTable() {
         Connection c = null;
         Statement stmt = null;
@@ -57,12 +47,6 @@ public class Data_base {
         }
     }
 
-    /**
-     * Insert a new record
-     * @param table - the table to which we'll add an record
-     * @param values - the values ​​of the record
-     * @return
-     */
     public boolean Insert(String table, String[] values) {
         Connection c = null;
         Statement stmt = null;
@@ -70,7 +54,7 @@ public class Data_base {
         if (table == "USERS") {
             try {
                 String sql = "INSERT INTO USERS (User_name,Password,Birthday,First_name,Last_name,City) VALUES (";
-                for(int i=0;i<values.length-1;i++) {//Build the format of the query
+                for(int i=0;i<values.length-1;i++) {
                     sql += "'" + values[i] + "', ";
                 }
                 sql+="'"+values[values.length-1]+"');";
@@ -98,13 +82,6 @@ public class Data_base {
         return false;
     }
 
-    /**
-     * Search for an record
-     * @param table - the table to which we will execute the query
-     * @param col -
-     * @param id - the value we'll be looking for
-     * @return
-     */
     public ArrayList<String[]> Read(String table, String col, String id) {
         Connection c = null;
         PreparedStatement stmt = null;
@@ -146,15 +123,6 @@ public class Data_base {
         return ans;
     }
 
-    /**
-     * Updating an existing record
-     * @param table
-     * @param newCol
-     * @param newVal
-     * @param colId
-     * @param id
-     * @return
-     */
     public boolean Update(String table, String newCol, String newVal, String colId, String id) {
         Connection c = null;
         Statement stmt = null;
@@ -180,13 +148,6 @@ public class Data_base {
         return true;
     }
 
-    /**
-     * Delete an existing record
-     * @param table
-     * @param col
-     * @param id
-     * @return
-     */
     public boolean Delete(String table, String col, String id){
         Connection c = null;
         Statement stmt = null;
@@ -213,12 +174,8 @@ public class Data_base {
         return false;
     }
 
-    /**
-     *
-     * @param user_name
-     * @param password
-     * @return
-     */
+
+
     public boolean checkPassword(String user_name, String password){
         ArrayList<String[]> select =  this.Read("USERS", "User_name", user_name);
         if (select.size()>0 && select.get(0)[1].equals(password))

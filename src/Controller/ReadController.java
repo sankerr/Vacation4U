@@ -15,13 +15,12 @@ import java.util.Observer;
 public class ReadController implements Observer{
 
     //Objects
-    private Stage stage;
     private IModel model;
+    private String user_name;
 
     // text fields
-    public TextField txt_username;
-    // buttons
-    public Button btn_search;
+    public javafx.scene.control.TextField txt_username;
+
 
     public void SearchUser() {
         String userName = txt_username.getText();
@@ -49,14 +48,17 @@ public class ReadController implements Observer{
                     //getting the data from the array list
                     String data = "";
                     for (String[] str:select){
-                        for (String s:str){
-                            data = data + s + " ";
+                        for (int i=0;i<str.length;i++){
+                            if(i!=1)
+                                data = data + str[i] + " ";
                         }
                         data = data + "\n\r";
                     }
 
                     alert.setContentText(data);
                     alert.showAndWait();
+                    Stage prim = (Stage) txt_username.getScene().getWindow();
+                    prim.close();
                 }
                 else {//if the select returned null row:
                     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -68,17 +70,13 @@ public class ReadController implements Observer{
         } catch (Exception e){
 
         }
-
-    }
-
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
     }
 
     public void setModel(IModel model){
         this.model = model;
     }
+
+    public void setUser_name(String user_name) {this.user_name = user_name; }
 
 
 }

@@ -1,24 +1,16 @@
 package View;
 
-import Controller.Controller;
-import Model.IModel;
+import Controller.*;
 import Model.Model;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
-import Controller.IController;
 
 public class Main extends Application implements Initializable {
 
@@ -36,6 +28,7 @@ public class Main extends Application implements Initializable {
         //-------
         Controller controller = fxmlLoader.getController();
         controller.setModel(model);
+        controller.setLogo();
         model.addObserver(controller);
         primaryStage.show();
     }

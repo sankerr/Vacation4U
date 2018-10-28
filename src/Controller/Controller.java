@@ -3,8 +3,6 @@ package Controller;
 import Model.IModel;
 import Model.Model;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,7 +19,8 @@ import java.util.Optional;
 
 public class Controller implements IController, Observer {
 
-    public IModel model;
+    private IModel model;
+    private RUDController rudController;
 
     // buttons
     public javafx.scene.control.Button btn_login;
@@ -42,32 +41,17 @@ public class Controller implements IController, Observer {
     public javafx.scene.layout.GridPane grid_pane;
 
 
-    public void setModel(Model model){
+    public void setModel(IModel model){
         this.model = model;
+    }
+
+    public void setLogo(){
         try {
             Image logo = new Image(Controller.class.getClassLoader().getResourceAsStream("logo.jpeg"));
             img_logo.setImage(logo);
-            /*
-            grid_pane.heightProperty().addListener(new ChangeListener<Number>() {
-                @Override
-                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                    double heightChange = (double)newValue - (double)oldValue;
-                    btn_login.setPrefHeight(btn_login.getPrefHeight() + (heightChange));
-                     btn_sign_up.setPrefHeight(btn_sign_up.getPrefHeight() + (heightChange));
-                }
-            });
-            grid_pane.widthProperty().addListener(new ChangeListener<Number>() {
-                @Override
-                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                    double widthChange = (double)newValue - (double)oldValue;
-                    btn_login.setPrefWidth(btn_login.getPrefWidth() + (widthChange));
-                    btn_sign_up.setPrefWidth(btn_sign_up.getPrefWidth() + (widthChange));
-                }
-            });*/
         }catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
 
@@ -142,17 +126,29 @@ public class Controller implements IController, Observer {
             Parent root = fxmlLoader.load(getClass().getResource("/View/Rud.fxml").openStream());
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("ABC");
+            stage.setTitle("Vacation4U App");
             stage.setScene(new Scene(root, 600, 450));
             root.setStyle("-fx-background-color: white");
-            RUDController controller = fxmlLoader.getController();
-            controller.setModel(model);
-            controller.setUser_name(user_name);
-            Stage prim = (Stage) btn_sign_up.getScene().getWindow();
+
+            if(rudController == null){
+                rudController = fxmlLoader.getController();
+                ((Model)model).addObserver(rudController);
+            }
+            else {
+                ((Model)model).deleteObserver(rudController);
+                rudController = fxmlLoader.getController();
+                ((Model)model).addObserver(rudController);
+            }
+            rudController.setModel(model);
+            rudController.setUser_name(user_name);
+            rudController.setController(this);
+            rudController.setAbout();
+            Stage prim = (Stage) this.btn_sign_up.getScene().getWindow();
             prim.close();
+            stage.setResizable(false);
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+
         }
     }
 }
