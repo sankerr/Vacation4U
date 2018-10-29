@@ -62,8 +62,8 @@ public class Controller implements IController, Observer {
     public void onKeyReleasedSignUp(){
         boolean releasedSignUp = (txt_user_first_name.getText().isEmpty() || txt_user_last_name.getText().isEmpty() ||
                 txt_new_username.getText().isEmpty() || txt_user_city.getText().isEmpty() ||
-                txt_new_user_password.getText().isEmpty() /*||
-                date_picker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")).isEmpty()*/);
+                txt_new_user_password.getText().isEmpty() ||
+                date_picker.getValue() == null);
         btn_sign_up.setDisable(releasedSignUp);
 
     }
@@ -124,7 +124,7 @@ public class Controller implements IController, Observer {
             Parent root = fxmlLoader.load(getClass().getResource("/View/Rud.fxml").openStream());
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Vacation4U App" + " - Hello " + user_name);
+            stage.setTitle("Vacation4U App");
             stage.setScene(new Scene(root, 600, 450));
             root.setStyle("-fx-background-color: white");
 

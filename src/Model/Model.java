@@ -7,6 +7,7 @@ import java.util.Observable;
 public class Model extends Observable implements IModel {
 
     private Data_base db;
+    private String user_name;
 
     public Model(){
         db = new Data_base("V4u.db");
@@ -88,5 +89,21 @@ public class Model extends Observable implements IModel {
     public boolean searchUserName(String userToSearch){
         ArrayList<String[]> select = db.Read("USERS","User_name", userToSearch);
         return select.isEmpty();
+    }
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
+
+
+    // this function returns arraylist of all details that belongs to the user
+    public ArrayList<String[]> bringDetailsOfUser (String user){
+        ArrayList<String[]> ans = new ArrayList<String[]>();
+        ans = db.Read("USERS","User_name", user);
+        return ans;
     }
 }

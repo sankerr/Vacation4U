@@ -26,7 +26,6 @@ import java.util.ResourceBundle;
 public class RUDController implements Observer{
 
     private IModel model;
-    private String user_name;
     private ReadController readController;
     private UpdateController updateController;
     private Controller controller;
@@ -46,7 +45,7 @@ public class RUDController implements Observer{
         }
     }
 
-    public void setUser_name(String user_name){ this.user_name = user_name; }
+    public void setUser_name(String user_name){ model.setUser_name(user_name); }
 
     public void setController(Controller controller){ this.controller = controller; }
 
@@ -73,7 +72,9 @@ public class RUDController implements Observer{
             }
             updateController.setModel(model);
             updateController.setLogo();
-            updateController.setUser_name(user_name);
+
+            //call the function that shows the details of the user
+            updateController.searchUser(model.getUser_name());
 
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.show();
@@ -97,14 +98,13 @@ public class RUDController implements Observer{
             if(readController == null){
                 readController = fxmlLoader.getController();
                 ((Model)model).addObserver(readController);
-                readController.setModel(model);
             }
             else {
                 ((Model)model).deleteObserver(readController);
                 readController = fxmlLoader.getController();
                 ((Model)model).addObserver(readController);
             }
-
+            readController.setModel(model);
 
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.setResizable(false);
@@ -124,17 +124,15 @@ public class RUDController implements Observer{
         //checking what the player choose
         alert.showAndWait().ifPresent((buttonType) -> {
             if(buttonType == yesButton){
-                model.deleteUser(user_name);
-                Stage prim = (Stage) menu.getScene().getWindow();
-                prim.close();
+                model.deleteUser(model.getUser_name());
             } });
 
     }
 
     public void sign_out(){
-        if(readController!=null)
+        if(readController != null)
             ((Model)model).deleteObserver(readController);
-        if(updateController!=null)
+        if(updateController != null)
             ((Model)model).deleteObserver(updateController);
         Stage prim = (Stage) menu.getScene().getWindow();
         prim.close();
@@ -147,9 +145,12 @@ public class RUDController implements Observer{
             Object obj = ((Object[])arg)[0];
             String str = (String)obj;
             if(str.equals("user deleted")) {
+                sign_out();
+                /*
                 Stage prim = (Stage) menu.getScene().getWindow();
                 prim.close();
                 openMainView();
+                */
             }
         } catch (Exception e) {
 

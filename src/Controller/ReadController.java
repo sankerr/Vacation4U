@@ -47,18 +47,13 @@ public class ReadController implements Observer{
 
                     //getting the data from the array list
                     String data = "";
-                    for (String[] str:select){
-                        for (int i=0;i<str.length;i++){
-                            if(i!=1)
-                                data = data + str[i] + " ";
-                        }
-                        data = data + "\n\r";
-                    }
+                    String[] str = select.get(0);
+                    data = "Username: " + str[0] + "      Name: " + str[3] + "      Last Name: " + str[4] + "\n"
+                            + "City: " + str[5] + "        Birthdate: " + str[2];
 
+                    //creating new alert with the data:
                     alert.setContentText(data);
                     alert.showAndWait();
-                    Stage prim = (Stage) txt_username.getScene().getWindow();
-                    prim.close();
                 }
                 else {//if the select returned null row:
                     Alert alert = new Alert(Alert.AlertType.ERROR);

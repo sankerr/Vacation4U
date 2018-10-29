@@ -6,6 +6,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
@@ -13,7 +14,6 @@ import java.util.Optional;
 public class UpdateController implements Observer{
 
     private IModel model;
-    private String user_name;
 
     public javafx.scene.control.Button btn_edit;
     public javafx.scene.control.TextField txt_username;
@@ -37,22 +37,23 @@ public class UpdateController implements Observer{
         }
     }
 
-    public void setUser_name(String user_name){ this.user_name = user_name; }
+    public void setUser_name(String user_name){ model.setUser_name(user_name); }
 
     public void edit(){
         if(txt_username.getText().isEmpty() && txt_password.getText().isEmpty() &&
                 txt_firstname.getText().isEmpty() && txt_lastname.getText().isEmpty() &&
                 txt_city.getText().isEmpty() && datePicker_date_of_birth.valueProperty().isNull().get()){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Edir Error");
+            alert.setTitle("Edit Error");
             alert.setHeaderText("You must enter at least one update parameter");
             Optional<ButtonType> reasult = alert.showAndWait();
             if(reasult.get() == ButtonType.OK)
                 alert.close();
         }
-        else if(!txt_username.getText().isEmpty() && !model.searchUserName(txt_username.getText())){
+        else if((!txt_username.getText().isEmpty() && !model.searchUserName(txt_username.getText()))
+                && !txt_username.getText().equals(model.getUser_name())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Edir Error");
+            alert.setTitle("Edit Error");
             alert.setHeaderText("The username already exists in the system\r\n" +
                     "Please select a different username");
             Optional<ButtonType> reasult = alert.showAndWait();
@@ -61,9 +62,11 @@ public class UpdateController implements Observer{
         }
         else {
             String[] data = new String[7];
-            data[0] = this.user_name;
-            if(!txt_username.getText().isEmpty())
+            data[0] = model.getUser_name();
+            if(!txt_username.getText().isEmpty()) {
                 data[1] = txt_username.getText();
+                setUser_name(txt_username.getText());
+            }
             else
                 data[1]="";
 
@@ -109,5 +112,17 @@ public class UpdateController implements Observer{
         } catch (Exception e){
 
         }
+    }
+
+    //this function will show the all details of the user in edit page
+    public void searchUser (String user){
+        ArrayList<String[]> currUser = model.bringDetailsOfUser(user);
+        String[] arr = currUser.get(0);
+        txt_username.setText(arr[0]);
+        txt_password.setText(arr[1]);
+        datePicker_date_of_birth.setPromptText(arr[2]);
+        txt_firstname.setText(arr[3]);
+        txt_lastname.setText(arr[4]);
+        txt_city.setText(arr[5]);
     }
 }

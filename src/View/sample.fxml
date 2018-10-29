@@ -64,7 +64,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                        <DatePicker fx:id="date_picker" editable="false" prefHeight="26.0" prefWidth="130.0" />
+                        <DatePicker fx:id="date_picker" editable="false" onHiding="#onKeyReleasedSignUp" onMouseEntered="#onKeyReleasedSignUp" onMouseReleased="#onKeyReleasedSignUp" prefHeight="26.0" prefWidth="130.0" />
                     </children>
                 </HBox>
                 <TextField fx:id="txt_new_username" onKeyReleased="#onKeyReleasedSignUp" prefHeight="26.0" prefWidth="50.0" promptText="User name" />

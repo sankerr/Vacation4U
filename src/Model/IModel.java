@@ -2,6 +2,7 @@ package Model;
 
 import Controller.RUDController;
 
+import java.util.ArrayList;
 import java.util.Observable;
 
 public interface IModel {
@@ -12,4 +13,7 @@ public interface IModel {
     void deleteUser(String userName);
     void updateUserData(String[] updateData);
     boolean searchUserName(String userName);
+    String getUser_name();
+    void setUser_name(String user_name);
+    ArrayList<String[]> bringDetailsOfUser (String user);
 }
