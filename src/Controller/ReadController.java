@@ -1,11 +1,8 @@
 package Controller;
 
 import Model.IModel;
-import Model.Model;
-import javafx.event.ActionEvent;
+
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -16,11 +13,14 @@ public class ReadController implements Observer{
 
     //Objects
     private IModel model;
-    private String user_name;
 
     // text fields
     public javafx.scene.control.TextField txt_username;
 
+
+    public void setModel(IModel model){
+        this.model = model;
+    }
 
     public void SearchUser() {
         String userName = txt_username.getText();
@@ -71,12 +71,5 @@ public class ReadController implements Observer{
 
         }
     }
-
-    public void setModel(IModel model){
-        this.model = model;
-    }
-
-    public void setUser_name(String user_name) {this.user_name = user_name; }
-
 
 }

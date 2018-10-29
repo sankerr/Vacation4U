@@ -3,6 +3,7 @@ package Controller;
 import Model.IModel;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Observable;
@@ -21,9 +22,19 @@ public class UpdateController implements Observer{
     public javafx.scene.control.TextField txt_lastname;
     public javafx.scene.control.TextField txt_city;
     public javafx.scene.control.DatePicker datePicker_date_of_birth;
+    public javafx.scene.image.ImageView img_logo;
 
     public void setModel(IModel model){
         this.model = model;
+    }
+
+    public void setLogo(){
+        try {
+            Image logo = new Image(Controller.class.getClassLoader().getResourceAsStream("logo.jpeg"));
+            img_logo.setImage(logo);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void setUser_name(String user_name){ this.user_name = user_name; }

@@ -35,7 +35,22 @@ public class RUDController implements Observer{
     public javafx.scene.image.ImageView iv_about;
 
 
-    public void EditProfile(ActionEvent actionEvent) {
+    public void setModel(IModel model) { this.model = model; }
+
+    public void setAbout(){
+        try {
+            Image logo = new Image(Controller.class.getClassLoader().getResourceAsStream("about_company.jpg"));
+            iv_about.setImage(logo);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setUser_name(String user_name){ this.user_name = user_name; }
+
+    public void setController(Controller controller){ this.controller = controller; }
+
+    public void EditProfile() {
         try {
             //openning new Stage to show in
             Stage stage = new Stage();
@@ -57,6 +72,7 @@ public class RUDController implements Observer{
                 ((Model)model).addObserver(updateController);
             }
             updateController.setModel(model);
+            updateController.setLogo();
             updateController.setUser_name(user_name);
 
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
@@ -88,7 +104,6 @@ public class RUDController implements Observer{
                 ((Model)model).addObserver(readController);
             }
             readController.setModel(model);
-            readController.setUser_name(user_name);
 
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.setResizable(false);
@@ -163,20 +178,5 @@ public class RUDController implements Observer{
 
         }
     }
-
-    public void setModel(IModel model) { this.model = model; }
-
-    public void setAbout(){
-        try {
-            Image logo = new Image(Controller.class.getClassLoader().getResourceAsStream("about_company.jpg"));
-            iv_about.setImage(logo);
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setUser_name(String user_name){ this.user_name = user_name; }
-
-    public void setController(Controller controller){ this.controller = controller; }
 
 }

@@ -22,11 +22,6 @@
                   <MenuItem fx:id="btn_sign_out" mnemonicParsing="false" onAction="#sign_out" text="Sign out" />
           </items>
         </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-          <items>
-            <MenuItem fx:id="btn_about" mnemonicParsing="false" text="About us" />
-          </items>
-        </Menu>
       </menus>
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="391.0" prefWidth="654.0" VBox.vgrow="ALWAYS">

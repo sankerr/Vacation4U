@@ -35,10 +35,8 @@ public class Controller implements IController, Observer {
     public javafx.scene.control.PasswordField txt_new_user_password;
     // date picker
     public javafx.scene.control.DatePicker date_picker;
-
+    // logo image
     public javafx.scene.image.ImageView img_logo;
-
-    public javafx.scene.layout.GridPane grid_pane;
 
 
     public void setModel(IModel model){
@@ -111,7 +109,7 @@ public class Controller implements IController, Observer {
 
     }
 
-    public void showAlert(String title, String headerText){
+    private void showAlert(String title, String headerText){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(headerText);
@@ -120,7 +118,7 @@ public class Controller implements IController, Observer {
             alert.close();
     }
 
-    public void openRud(String user_name){
+    private void openRud(String user_name){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             Parent root = fxmlLoader.load(getClass().getResource("/View/Rud.fxml").openStream());

@@ -6,7 +6,7 @@ import java.util.Observable;
 
 public class Model extends Observable implements IModel {
 
-    public Data_base db;
+    private Data_base db;
 
     public Model(){
         db = new Data_base("V4u.db");
