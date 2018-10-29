@@ -97,13 +97,14 @@ public class RUDController implements Observer{
             if(readController == null){
                 readController = fxmlLoader.getController();
                 ((Model)model).addObserver(readController);
+                readController.setModel(model);
             }
             else {
                 ((Model)model).deleteObserver(readController);
                 readController = fxmlLoader.getController();
                 ((Model)model).addObserver(readController);
             }
-            readController.setModel(model);
+
 
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.setResizable(false);
@@ -131,6 +132,10 @@ public class RUDController implements Observer{
     }
 
     public void sign_out(){
+        if(readController!=null)
+            ((Model)model).deleteObserver(readController);
+        if(updateController!=null)
+            ((Model)model).deleteObserver(updateController);
         Stage prim = (Stage) menu.getScene().getWindow();
         prim.close();
         openMainView();
@@ -172,6 +177,7 @@ public class RUDController implements Observer{
                 ((Model)model).addObserver(controller);
             }
             controller.setModel(model);
+            controller.setRUDController(this);
             controller.setLogo();
             stage.show();
         } catch (IOException e) {

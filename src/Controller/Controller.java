@@ -52,6 +52,7 @@ public class Controller implements IController, Observer {
         }
     }
 
+    public void setRUDController(RUDController rudController){ this.rudController = rudController; }
 
     public void onKeyReleasedLogin(){
         boolean releasedLogin = (txt_id_user.getText().isEmpty() || txt_id_password.getText().isEmpty());
@@ -106,7 +107,6 @@ public class Controller implements IController, Observer {
         } catch (Exception e){
 
         }
-
     }
 
     private void showAlert(String title, String headerText){
@@ -124,7 +124,7 @@ public class Controller implements IController, Observer {
             Parent root = fxmlLoader.load(getClass().getResource("/View/Rud.fxml").openStream());
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Vacation4U App");
+            stage.setTitle("Vacation4U App" + " - Hello " + user_name);
             stage.setScene(new Scene(root, 600, 450));
             root.setStyle("-fx-background-color: white");
 
@@ -137,6 +137,7 @@ public class Controller implements IController, Observer {
                 rudController = fxmlLoader.getController();
                 ((Model)model).addObserver(rudController);
             }
+
             rudController.setModel(model);
             rudController.setUser_name(user_name);
             rudController.setController(this);

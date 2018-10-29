@@ -64,6 +64,9 @@
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                   </TextField>
                   <Button fx:id="btn_search" mnemonicParsing="false" onAction="#SearchUser" prefHeight="27.0" prefWidth="86.0" text="Search" GridPane.columnIndex="1">
                      <GridPane.margin>
