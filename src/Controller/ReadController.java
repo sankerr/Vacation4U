@@ -48,8 +48,11 @@ public class ReadController implements Observer{
                     //getting the data from the array list
                     String data = "";
                     String[] str = select.get(0);
-                    data = "Username: " + str[0] + "      Name: " + str[3] + "      Last Name: " + str[4] + "\n"
-                            + "City: " + str[5] + "        Birthdate: " + str[2];
+                    data = "Username: " + str[0] + "\r\n" +
+                            "Name: " + str[3] + "\r\n" +
+                            "Last Name: " + str[4] + "\r\n" +
+                            "City: " + str[5] + "\r\n" +
+                            "Birthdate: " + str[2];
 
                     //creating new alert with the data:
                     alert.setContentText(data);

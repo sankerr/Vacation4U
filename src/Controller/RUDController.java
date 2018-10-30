@@ -146,11 +146,6 @@ public class RUDController implements Observer{
             String str = (String)obj;
             if(str.equals("user deleted")) {
                 sign_out();
-                /*
-                Stage prim = (Stage) menu.getScene().getWindow();
-                prim.close();
-                openMainView();
-                */
             }
         } catch (Exception e) {
 
