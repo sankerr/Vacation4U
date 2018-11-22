@@ -12,6 +12,8 @@ public class Model extends Observable implements IModel {
     public Model(){
         db = new Data_base("V4u.db");
         db.createUsersTable();
+        db.createVacationTable();
+        db.createPaymentTable();
     }
 
     @Override

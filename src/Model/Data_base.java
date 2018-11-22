@@ -47,6 +47,71 @@ public class Data_base {
         }
     }
 
+
+    public void createVacationTable() {
+        Connection c = null;
+        Statement stmt = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:" + this.db_Name);
+            stmt = c.createStatement();
+            String sql = "CREATE TABLE VACATION " +
+                    "(Vacation_IDX INTEGER PRIMARY KEY UNIQUE NOT NULL," +
+                    " User_name VARCHAR(20) NOT NULL, " +
+                    " Dest VARCHAR(30) NOT NULL, " +
+                    " Start_date DATE NOT NULL, " +
+                    " End_DATE DATE NOT NULL, " +
+                    " Flight_company VARCHAR(20) NOT NULL, " +
+                    " Price INTEGER NOT NULL, " +
+                    " Num_of_ticket INTEGER NOT NULL, " +
+                    " Luggage VARCHAR(10) NOT NULL, " +
+                    " ticket_type VARCHAR(10) NOT NULL, " +
+                    " To_way INTEGER NOT NULL, " +
+                    " Vacation_type VARCHAR(30) NOT NULL, " +
+                    " Sleep_included INTEGER NOT NULL, " +
+                    " Sleep_rank INTEGER NOT NULL, " +
+                    " Sleep_name VARCHAR(30) NOT NULL, " +
+                    " Sleep_add VARCHAR(30) NOT NULL)";
+            stmt.executeUpdate(sql);
+            stmt.close();
+            c.close();
+        } catch (Exception e) {
+            try {
+                c.close();
+                stmt.close();
+            } catch (SQLException e1) {
+
+            }
+        }
+    }
+
+
+    public void createPaymentTable() {
+        Connection c = null;
+        Statement stmt = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:" + this.db_Name);
+            stmt = c.createStatement();
+            String sql = "CREATE TABLE PAYMENT " +
+                    "(Payment_IDX INTEGER PRIMARY KEY UNIQUE NOT NULL," +
+                    " User_name_seller VARCHAR(20) NOT NULL, " +
+                    " User_name_buyer VARCHAR(20) NOT NULL, " +
+                    " Finel_Price INTEGER NOT NULL)";
+            stmt.executeUpdate(sql);
+            stmt.close();
+            c.close();
+        } catch (Exception e) {
+            try {
+                c.close();
+                stmt.close();
+            } catch (SQLException e1) {
+
+            }
+        }
+    }
+
+
     public boolean Insert(String table, String[] values) {
         Connection c = null;
         Statement stmt = null;
