@@ -194,15 +194,13 @@ public class Data_base {
                     String ticket_type = rs.getString("ticket_type");
                     String To_way = rs.getString("To_way");
                     String Vacation_type = rs.getString("Vacation_type");
-                    //String To_way = rs.getString("To_way");
+                    String Sleep_included = rs.getString("Sleep_included");
+                    String Sleep_rank = rs.getString("Sleep_rank");
+                    String Sleep_name = rs.getString("Sleep_name");
 
-
-                    //"Vacation_IDX,User_name,Dest,Start_date,End_DATE" +
-                    //        "Flight_company,Price,Num_of_ticket,Luggage,ticket_type,To_way,Vacation_type" +
-                    //        "Sleep_included,Sleep_rank,Sleep_name"
-
-                    String[] str = {user_Name, Dest, "" + Start_date, "" + End_date, Flight_company, Price,
-                                    Num_of_ticket, Luggage, ticket_type, To_way, Vacation_type};
+                    String[] str = {user_Name, Dest, "" + Start_date, "" + End_date, Flight_company,
+                                    Price, Num_of_ticket, Luggage, ticket_type, To_way, Vacation_type,
+                                    Sleep_included, Sleep_rank, Sleep_name};
                     ans.add(str);
                 }
             }
@@ -211,7 +209,6 @@ public class Data_base {
             c.close();
 
         } catch (Exception e) {
-            //System.err.println(e.getClass().getName() + ": " + e.getMessage());
 
         }
 

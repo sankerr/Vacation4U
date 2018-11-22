@@ -123,7 +123,7 @@ public class Controller implements IController, Observer {
     private void openRud(String user_name){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            Parent root = fxmlLoader.load(getClass().getResource("/View/Rud.fxml").openStream());
+            Parent root = fxmlLoader.load(getClass().getResource("/View/UserRud.fxml").openStream());
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Vacation4U App");
