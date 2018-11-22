@@ -155,7 +155,7 @@ public class RUDController implements Observer{
     private void openMainView(){
         try {
             Stage stage = new Stage();
-            stage.setTitle("Vication4U");
+            stage.setTitle("Vacation4U");
             FXMLLoader fxmlLoader = new FXMLLoader();
             Parent root = fxmlLoader.load(getClass().getResource("/View/sample.fxml").openStream());
             Scene scene = new Scene(root, 600, 450);
