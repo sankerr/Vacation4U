@@ -3,6 +3,7 @@ package Controller;
 import Model.IModel;
 import Model.Model;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,6 +22,7 @@ public class Controller implements IController, Observer {
 
     private IModel model;
     private UserRUDController rudController;
+    private VacationPanelController vacationPanelController;
 
     // buttons
     public javafx.scene.control.Button btn_login;
@@ -142,6 +144,39 @@ public class Controller implements IController, Observer {
             rudController.setUser_name(user_name);
             rudController.setController(this);
             rudController.setAbout();
+            Stage prim = (Stage) this.btn_sign_up.getScene().getWindow();
+            prim.close();
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+
+        }
+    }
+
+    public void OpenVacationPanel(ActionEvent actionEvent) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            Parent root = fxmlLoader.load(getClass().getResource("/View/VacationPanel.fxml").openStream());
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Vacation4U App");
+            stage.setScene(new Scene(root, 600, 450));
+            root.setStyle("-fx-background-color: white");
+
+            if(vacationPanelController == null){
+                vacationPanelController = fxmlLoader.getController();
+                ((Model)model).addObserver(vacationPanelController);
+            }
+            else {
+                ((Model)model).deleteObserver(vacationPanelController);
+                vacationPanelController = fxmlLoader.getController();
+                ((Model)model).addObserver(vacationPanelController);
+            }
+
+            vacationPanelController.setModel(model);
+            //rudController.setUser_name(user_name);
+            //rudController.setController(this);
+            //rudController.setAbout();
             Stage prim = (Stage) this.btn_sign_up.getScene().getWindow();
             prim.close();
             stage.setResizable(false);
