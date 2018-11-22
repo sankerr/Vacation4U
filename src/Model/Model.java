@@ -121,4 +121,9 @@ public class Model extends Observable implements IModel {
             notifyObservers(args);
         }
     }
+
+    @Override
+    public String getVacation_idx() {
+        return db.getVacation_idx();
+    }
 }

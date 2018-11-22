@@ -6,9 +6,11 @@ import java.util.*;
 public class Data_base {
 
     private String db_Name;
+    private int Vacation_idx;
 
     public Data_base(String fileName) {
         db_Name = fileName;
+        Vacation_idx = 1;
         String url = "jdbc:sqlite:" + fileName;
         Connection c = null;
         try {
@@ -18,6 +20,11 @@ public class Data_base {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
+    }
+
+    public String getVacation_idx(){
+        Vacation_idx++;
+        return ""+(Vacation_idx - 1);
     }
 
     public void createUsersTable() {
@@ -57,6 +64,7 @@ public class Data_base {
             String sql = "CREATE TABLE VACATION " +
                     "(Vacation_IDX INTEGER PRIMARY KEY UNIQUE NOT NULL," +
                     " User_name VARCHAR(20) NOT NULL, " +
+                    " FlyFrom VARCHAR(30) NOT NULL, " +
                     " Dest VARCHAR(30) NOT NULL, " +
                     " Start_date DATE NOT NULL, " +
                     " End_date DATE NOT NULL, " +
@@ -114,35 +122,38 @@ public class Data_base {
         Connection c = null;
         Statement stmt = null;
 
-        if (table == "USERS") {
-            try {
-                String sql = "INSERT INTO USERS (User_name,Password,Birthday,First_name,Last_name,City) VALUES (";
-                for(int i=0;i<values.length-1;i++) {
-                    sql += "'" + values[i] + "', ";
-                }
-                sql+="'"+values[values.length-1]+"');";
-                Class.forName("org.sqlite.JDBC");
-                c = DriverManager.getConnection("jdbc:sqlite:" + this.db_Name);
-                c.setAutoCommit(false);
-                stmt = c.createStatement();
-                stmt.executeUpdate(sql);
-                stmt.close();
-                c.commit();
-                c.close();
-            } catch (Exception e) {
-                //System.err.println(e.getClass().getName() + ": " + e.getMessage());
-
-                try {
-                    c.close();
-                    stmt.close();
-                } catch (SQLException e1) {
-
-                }
-                return false;
+        try {
+            String sql = "";
+            if (table == "USERS")
+                sql = "INSERT INTO USERS (User_name,Password,Birthday,First_name,Last_name,City) VALUES (";
+            else if (table == "VACATION") {
+                sql = "INSERT INTO VACATION (Vacation_IDX,User_name,FlyFrom,Dest,Start_date,End_date," +
+                        "Flight_company,Price,Num_of_ticket,Luggage,ticket_type,To_way," +
+                        "Vacation_type,Sleep_included,Sleep_rank,Sleep_name) VALUES (";
             }
-            return true;
+            for(int i=0;i<values.length-1;i++) {
+                sql += "'" + values[i] + "', ";
+            }
+            sql+="'"+values[values.length-1]+"');";
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:" + this.db_Name);
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            stmt.executeUpdate(sql);
+            stmt.close();
+            c.commit();
+            c.close();
+        } catch (Exception e) {
+
+            try {
+                c.close();
+                stmt.close();
+            } catch (SQLException e1) {
+
+            }
+            return false;
         }
-        return false;
+        return true;
     }
 
     public ArrayList<String[]> Read(String table, String col, String id) {
@@ -236,7 +247,6 @@ public class Data_base {
         }
         return false;
     }
-
 
 
     public boolean checkPassword(String user_name, String password){

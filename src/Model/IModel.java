@@ -15,4 +15,5 @@ public interface IModel {
     ArrayList<String[]> bringDetailsOfUser (String user);
 
     void createVacation(String[] values);
+    String getVacation_idx();
 }
