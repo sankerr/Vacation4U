@@ -3,7 +3,6 @@ package Controller;
 import Model.IModel;
 import Model.Model;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,8 +20,7 @@ import java.util.Optional;
 public class Controller implements IController, Observer {
 
     private IModel model;
-    private RUDController rudController;
-    private VacationPanelController vacationPanelController;
+    private UserRUDController rudController;
 
     // buttons
     public javafx.scene.control.Button btn_login;
@@ -54,7 +52,7 @@ public class Controller implements IController, Observer {
         }
     }
 
-    public void setRUDController(RUDController rudController){ this.rudController = rudController; }
+    public void setRUDController(UserRUDController rudController){ this.rudController = rudController; }
 
     public void onKeyReleasedLogin(){
         boolean releasedLogin = (txt_id_user.getText().isEmpty() || txt_id_password.getText().isEmpty());
@@ -144,40 +142,6 @@ public class Controller implements IController, Observer {
             rudController.setUser_name(user_name);
             rudController.setController(this);
             rudController.setAbout();
-            Stage prim = (Stage) this.btn_sign_up.getScene().getWindow();
-            prim.close();
-            stage.setResizable(false);
-            stage.show();
-        } catch (IOException e) {
-
-        }
-    }
-
-    public void OpenVacationPanel(ActionEvent actionEvent) {
-        try {
-            Stage stage = new Stage();
-            stage.setTitle("Vacation4U");
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            Parent root = fxmlLoader.load(getClass().getResource("/View/VacationPanel.fxml").openStream());
-            Scene scene = new Scene(root, 600, 450);
-            stage.setScene(scene);
-            root.setStyle("-fx-background-color: white");
-            stage.setResizable(false);
-
-            if(vacationPanelController == null){
-                vacationPanelController = fxmlLoader.getController();
-                ((Model)model).addObserver(vacationPanelController);
-            }
-            else {
-                ((Model)model).deleteObserver(vacationPanelController);
-                vacationPanelController = fxmlLoader.getController();
-                ((Model)model).addObserver(vacationPanelController);
-            }
-
-            vacationPanelController.setModel(model);
-            //vacationPanelController.setUser_name(user_name);
-            //vacationPanelController.setController(this);
-
             Stage prim = (Stage) this.btn_sign_up.getScene().getWindow();
             prim.close();
             stage.setResizable(false);

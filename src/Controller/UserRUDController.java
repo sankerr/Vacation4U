@@ -2,15 +2,10 @@ package Controller;
 
 import Model.IModel;
 import Model.Model;
-import View.*;
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
@@ -18,16 +13,14 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.ResourceBundle;
 
-public class RUDController implements Observer{
+public class UserRUDController implements Observer{
 
     private IModel model;
-    private ReadController readController;
-    private UpdateController updateController;
+    private UserReadController userReadController;
+    private UserUpdateController userUpdateController;
     private Controller controller;
 
     public javafx.scene.control.MenuBar menu;
@@ -55,26 +48,26 @@ public class RUDController implements Observer{
             Stage stage = new Stage();
             stage.setTitle("Edit Profile");
             FXMLLoader fxmlLoader = new FXMLLoader();
-            Parent root = fxmlLoader.load(getClass().getResource("/View/Update.fxml").openStream());
+            Parent root = fxmlLoader.load(getClass().getResource("/View/UserUpdate.fxml").openStream());
             root.setStyle("-fx-background-color: white");
             Scene scene = new Scene(root, 600, 500);
             stage.setScene(scene);
 
             //loading the controllers of the new stage:
-            if(updateController == null){
-                updateController = fxmlLoader.getController();
-                ((Model)model).addObserver(updateController);
+            if(userUpdateController == null){
+                userUpdateController = fxmlLoader.getController();
+                ((Model)model).addObserver(userUpdateController);
             }
             else {
-                ((Model)model).deleteObserver(updateController);
-                updateController = fxmlLoader.getController();
-                ((Model)model).addObserver(updateController);
+                ((Model)model).deleteObserver(userUpdateController);
+                userUpdateController = fxmlLoader.getController();
+                ((Model)model).addObserver(userUpdateController);
             }
-            updateController.setModel(model);
-            updateController.setLogo();
+            userUpdateController.setModel(model);
+            userUpdateController.setLogo();
 
             //call the function that shows the details of the user
-            updateController.searchUser(model.getUser_name());
+            userUpdateController.searchUser(model.getUser_name());
 
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.show();
@@ -89,22 +82,22 @@ public class RUDController implements Observer{
             Stage stage = new Stage();
             stage.setTitle("Search");
             FXMLLoader fxmlLoader = new FXMLLoader();
-            Parent root = fxmlLoader.load(getClass().getResource("/View/Read.fxml").openStream());
+            Parent root = fxmlLoader.load(getClass().getResource("/View/UserRead.fxml").openStream());
             root.setStyle("-fx-background-color: white");
             Scene scene = new Scene(root, 500, 180);
             stage.setScene(scene);
 
             //loading the controllers of the new stage:
-            if(readController == null){
-                readController = fxmlLoader.getController();
-                ((Model)model).addObserver(readController);
+            if(userReadController == null){
+                userReadController = fxmlLoader.getController();
+                ((Model)model).addObserver(userReadController);
             }
             else {
-                ((Model)model).deleteObserver(readController);
-                readController = fxmlLoader.getController();
-                ((Model)model).addObserver(readController);
+                ((Model)model).deleteObserver(userReadController);
+                userReadController = fxmlLoader.getController();
+                ((Model)model).addObserver(userReadController);
             }
-            readController.setModel(model);
+            userReadController.setModel(model);
 
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.setResizable(false);
@@ -130,10 +123,10 @@ public class RUDController implements Observer{
     }
 
     public void sign_out(){
-        if(readController != null)
-            ((Model)model).deleteObserver(readController);
-        if(updateController != null)
-            ((Model)model).deleteObserver(updateController);
+        if(userReadController != null)
+            ((Model)model).deleteObserver(userReadController);
+        if(userUpdateController != null)
+            ((Model)model).deleteObserver(userUpdateController);
         Stage prim = (Stage) menu.getScene().getWindow();
         prim.close();
         openMainView();

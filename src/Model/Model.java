@@ -45,7 +45,6 @@ public class Model extends Observable implements IModel {
             setChanged();
             notifyObservers(args);
         }
-
     }
 
     @Override
@@ -107,5 +106,19 @@ public class Model extends Observable implements IModel {
         ArrayList<String[]> ans = new ArrayList<String[]>();
         ans = db.Read("USERS","User_name", user);
         return ans;
+    }
+
+
+    public void createVacation(String[] values){
+        if(db.Insert("VACATION", values)) {
+            Object[] args = {"create vacation succeeded"};
+            setChanged();
+            notifyObservers(args);
+        }
+        else{
+            Object[] args = {"create vacation failed"};
+            setChanged();
+            notifyObservers(args);
+        }
     }
 }

@@ -60,7 +60,7 @@ public class Data_base {
                     " User_name VARCHAR(20) NOT NULL, " +
                     " Dest VARCHAR(30) NOT NULL, " +
                     " Start_date DATE NOT NULL, " +
-                    " End_DATE DATE NOT NULL, " +
+                    " End_date DATE NOT NULL, " +
                     " Flight_company VARCHAR(20) NOT NULL, " +
                     " Price INTEGER NOT NULL, " +
                     " Num_of_ticket INTEGER NOT NULL, " +
@@ -70,8 +70,7 @@ public class Data_base {
                     " Vacation_type VARCHAR(30) NOT NULL, " +
                     " Sleep_included INTEGER NOT NULL, " +
                     " Sleep_rank INTEGER NOT NULL, " +
-                    " Sleep_name VARCHAR(30) NOT NULL, " +
-                    " Sleep_add VARCHAR(30) NOT NULL)";
+                    " Sleep_name VARCHAR(30) NOT NULL)";
             stmt.executeUpdate(sql);
             stmt.close();
             c.close();
@@ -115,41 +114,49 @@ public class Data_base {
     public boolean Insert(String table, String[] values) {
         Connection c = null;
         Statement stmt = null;
-
+        String sql = "";
         if (table == "USERS") {
-            try {
-                String sql = "INSERT INTO USERS (User_name,Password,Birthday,First_name,Last_name,City) VALUES (";
-                for(int i=0;i<values.length-1;i++) {
-                    sql += "'" + values[i] + "', ";
-                }
-                sql+="'"+values[values.length-1]+"');";
-                Class.forName("org.sqlite.JDBC");
-                c = DriverManager.getConnection("jdbc:sqlite:" + this.db_Name);
-                c.setAutoCommit(false);
-                stmt = c.createStatement();
-                stmt.executeUpdate(sql);
-                stmt.close();
-                c.commit();
-                c.close();
-            } catch (Exception e) {
-                //System.err.println(e.getClass().getName() + ": " + e.getMessage());
-
-                try {
-                    c.close();
-                    stmt.close();
-                } catch (SQLException e1) {
-
-                }
-                return false;
-            }
-            return true;
+            sql = "INSERT INTO USERS (User_name,Password,Birthday,First_name,Last_name,City) VALUES (";
         }
-        return false;
+        else if (table == "VACATION"){
+            sql = "INSERT INTO VACATION (Vacation_IDX,User_name,Dest,Start_date,End_date," +
+                    "Flight_company,Price,Num_of_ticket,Luggage,ticket_type,To_way,Vacation_type" +
+                    "Sleep_included,Sleep_rank,Sleep_name) VALUES (";
+        }
+        else if (table == "PAYMENT"){
+            sql = "INSERT INTO PAYMENT (Payment_IDX,User_name_seller,User_name_buyer,Finel_Price) VALUES (";
+        }
+        try {
+            //String sql = "INSERT INTO USERS (User_name,Password,Birthday,First_name,Last_name,City) VALUES (";
+            for(int i=0;i<values.length-1;i++) {
+                sql += "'" + values[i] + "', ";
+            }
+            sql+="'"+values[values.length-1]+"');";
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:" + this.db_Name);
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            stmt.executeUpdate(sql);
+            stmt.close();
+            c.commit();
+            c.close();
+        } catch (Exception e) {
+            //System.err.println(e.getClass().getName() + ": " + e.getMessage());
+
+            try {
+                c.close();
+                stmt.close();
+            } catch (SQLException e1) {
+
+            }
+            return false;
+        }
+        return true;
     }
 
     public ArrayList<String[]> Read(String table, String col, String id) {
         Connection c = null;
-        PreparedStatement stmt = null;
+        Statement stmt = null;
         ArrayList<String[]> ans = new ArrayList<String[]>();
 
         try {
@@ -157,13 +164,11 @@ public class Data_base {
             c = DriverManager.getConnection("jdbc:sqlite:" + this.db_Name);
             c.setAutoCommit(false);
 
-            String sql = "SELECT * FROM "+table+" WHERE "+col+"=?;";
-            stmt = c.prepareStatement(sql);
-            {
-                // set the value
-                stmt.setString(1, id);
-                ResultSet rs = stmt.executeQuery();
+            String sql = "SELECT * FROM "+table+" WHERE "+col+"=id;";
+            stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
 
+            if (table == "USERS") {
                 while (rs.next()) {
                     String user_Name = rs.getString("User_name");
                     String password = rs.getString("Password");
@@ -172,14 +177,39 @@ public class Data_base {
                     String l_Name = rs.getString("Last_name");
                     String city = rs.getString("City");
 
-                    String[] str = {user_Name, password, ""+b_Date, f_Name, l_Name, city};
+                    String[] str = {user_Name, password, "" + b_Date, f_Name, l_Name, city};
                     ans.add(str);
-                    //ans += user_Name + " " + password + " " + b_Date + " " + f_Name + " " + l_Name + " " + city+"\n\r";
                 }
-                rs.close();
-                stmt.close();
-                c.close();
             }
+            else if (table == "VACATION"){
+                while (rs.next()) {
+                    String user_Name = rs.getString("User_name");
+                    String Dest = rs.getString("Dest");
+                    String Start_date = rs.getString("Start_date");
+                    String End_date = rs.getString("End_date");
+                    String Flight_company = rs.getString("Flight_company");
+                    String Price = rs.getString("Price");
+                    String Num_of_ticket = rs.getString("Num_of_ticket");
+                    String Luggage = rs.getString("Luggage");
+                    String ticket_type = rs.getString("ticket_type");
+                    String To_way = rs.getString("To_way");
+                    String Vacation_type = rs.getString("Vacation_type");
+                    //String To_way = rs.getString("To_way");
+
+
+                    //"Vacation_IDX,User_name,Dest,Start_date,End_DATE" +
+                    //        "Flight_company,Price,Num_of_ticket,Luggage,ticket_type,To_way,Vacation_type" +
+                    //        "Sleep_included,Sleep_rank,Sleep_name"
+
+                    String[] str = {user_Name, Dest, "" + Start_date, "" + End_date, Flight_company, Price,
+                                    Num_of_ticket, Luggage, ticket_type, To_way, Vacation_type};
+                    ans.add(str);
+                }
+            }
+            rs.close();
+            stmt.close();
+            c.close();
+
         } catch (Exception e) {
             //System.err.println(e.getClass().getName() + ": " + e.getMessage());
 

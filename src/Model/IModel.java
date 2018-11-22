@@ -1,9 +1,6 @@
 package Model;
 
-import Controller.RUDController;
-
 import java.util.ArrayList;
-import java.util.Observable;
 
 public interface IModel {
 
@@ -16,4 +13,6 @@ public interface IModel {
     String getUser_name();
     void setUser_name(String user_name);
     ArrayList<String[]> bringDetailsOfUser (String user);
+
+    void createVacation(String[] values);
 }

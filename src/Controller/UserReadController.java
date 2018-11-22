@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-public class ReadController implements Observer{
+public class UserReadController implements Observer{
 
     //Objects
     private IModel model;

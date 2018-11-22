@@ -11,7 +11,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
 
-public class UpdateController implements Observer{
+public class UserUpdateController implements Observer{
 
     private IModel model;
 
