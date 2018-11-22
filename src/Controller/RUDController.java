@@ -29,6 +29,8 @@ public class RUDController implements Observer{
     private ReadController readController;
     private UpdateController updateController;
     private Controller controller;
+    private VacationPanelController vacationPanelController;
+    private VacationCreateController vacationCreateController;
 
     public javafx.scene.control.MenuBar menu;
     public javafx.scene.image.ImageView iv_about;
@@ -155,7 +157,7 @@ public class RUDController implements Observer{
     private void openMainView(){
         try {
             Stage stage = new Stage();
-            stage.setTitle("Vication4U");
+            stage.setTitle("Vacation4U");
             FXMLLoader fxmlLoader = new FXMLLoader();
             Parent root = fxmlLoader.load(getClass().getResource("/View/sample.fxml").openStream());
             Scene scene = new Scene(root, 600, 450);
@@ -180,5 +182,92 @@ public class RUDController implements Observer{
 
         }
     }
+
+    public void OpenVacationPanel(ActionEvent actionEvent) {
+        try {
+            Stage stage = new Stage();
+            stage.setTitle("Vacation4U App");
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            Parent root = fxmlLoader.load(getClass().getResource("/View/VacationPanel.fxml").openStream());
+            Scene scene = new Scene(root, 600, 450);
+            stage.setScene(scene);
+            root.setStyle("-fx-background-color: white");
+            stage.setResizable(false);
+            //-------
+            if(vacationPanelController == null){
+                vacationPanelController = fxmlLoader.getController();
+                ((Model)model).addObserver(vacationPanelController);
+            }
+            else {
+                ((Model)model).deleteObserver(vacationPanelController);
+                vacationPanelController = fxmlLoader.getController();
+                ((Model)model).addObserver(vacationPanelController);
+            }
+            vacationPanelController.setModel(model);
+            stage.show();
+        } catch (IOException e) {
+
+        }
+    }
+
+    public void OpenNewVacation(ActionEvent actionEvent) {
+        try {
+            Stage stage = new Stage();
+            stage.setTitle("Vacation4U");
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            Parent root = fxmlLoader.load(getClass().getResource("/View/VacationCreate.fxml").openStream());
+            Scene scene = new Scene(root, 600, 450);
+            stage.setScene(scene);
+            root.setStyle("-fx-background-color: white");
+            stage.setResizable(false);
+            //-------
+            if(vacationCreateController == null){
+                vacationCreateController = fxmlLoader.getController();
+                ((Model)model).addObserver(vacationCreateController);
+            }
+            else {
+                ((Model)model).deleteObserver(vacationCreateController);
+                vacationCreateController = fxmlLoader.getController();
+                ((Model)model).addObserver(vacationCreateController);
+            }
+            vacationCreateController.setModel(model);
+            stage.show();
+        } catch (IOException e) {
+
+        }
+    }
+
+
+    public void OpenDeleteVacation(ActionEvent actionEvent) {
+        /*
+        try {
+            Stage stage = new Stage();
+            stage.setTitle("Vacation4U");
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            Parent root = fxmlLoader.load(getClass().getResource("/View/sample.fxml").openStream());
+            Scene scene = new Scene(root, 600, 450);
+            stage.setScene(scene);
+            root.setStyle("-fx-background-color: white");
+            stage.setResizable(false);
+            //-------
+            if(controller == null){
+                controller = fxmlLoader.getController();
+                ((Model)model).addObserver(controller);
+            }
+            else {
+                ((Model)model).deleteObserver(controller);
+                controller = fxmlLoader.getController();
+                ((Model)model).addObserver(controller);
+            }
+            controller.setModel(model);
+            controller.setRUDController(this);
+            controller.setLogo();
+            stage.show();
+        } catch (IOException e) {
+
+        }
+        */
+    }
+
 
 }
