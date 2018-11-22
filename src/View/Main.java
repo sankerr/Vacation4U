@@ -18,7 +18,7 @@ public class Main extends Application implements Initializable {
     public void start(Stage primaryStage) throws Exception{
         Model model = new Model();
         //--------------
-        primaryStage.setTitle("Vacation4U");
+        primaryStage.setTitle("Vication4U");
         FXMLLoader fxmlLoader = new FXMLLoader();
         Parent root = fxmlLoader.load(getClass().getResource("sample.fxml").openStream());
         Scene scene = new Scene(root, 600, 450);

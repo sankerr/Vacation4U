@@ -21,7 +21,7 @@ import java.util.Optional;
 public class Controller implements IController, Observer {
 
     private IModel model;
-    private UserRUDController rudController;
+    private RUDController rudController;
     private VacationPanelController vacationPanelController;
 
     // buttons
@@ -54,7 +54,7 @@ public class Controller implements IController, Observer {
         }
     }
 
-    public void setRUDController(UserRUDController rudController){ this.rudController = rudController; }
+    public void setRUDController(RUDController rudController){ this.rudController = rudController; }
 
     public void onKeyReleasedLogin(){
         boolean releasedLogin = (txt_id_user.getText().isEmpty() || txt_id_password.getText().isEmpty());
@@ -123,7 +123,7 @@ public class Controller implements IController, Observer {
     private void openRud(String user_name){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            Parent root = fxmlLoader.load(getClass().getResource("/View/UserRud.fxml").openStream());
+            Parent root = fxmlLoader.load(getClass().getResource("/View/Rud.fxml").openStream());
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Vacation4U App");
