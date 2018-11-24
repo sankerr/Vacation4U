@@ -231,6 +231,9 @@ public class RUDController implements Observer{
                 ((Model)model).addObserver(vacationCreateController);
             }
             vacationCreateController.setModel(model);
+            vacationCreateController.setUser_name(model.getUser_name());
+            vacationCreateController.setChoiceBox();
+            stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.show();
         } catch (IOException e) {
 

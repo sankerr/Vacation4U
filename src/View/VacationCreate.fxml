@@ -5,10 +5,6 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -19,47 +15,8 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.VacationCreateController">
   <children>
-    <MenuBar VBox.vgrow="NEVER">
-      <menus>
-        <Menu mnemonicParsing="false" text="File">
-          <items>
-            <MenuItem mnemonicParsing="false" text="New" />
-            <MenuItem mnemonicParsing="false" text="Open…" />
-            <Menu mnemonicParsing="false" text="Open Recent" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Close" />
-            <MenuItem mnemonicParsing="false" text="Save" />
-            <MenuItem mnemonicParsing="false" text="Save As…" />
-            <MenuItem mnemonicParsing="false" text="Revert" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Preferences…" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cut" />
-            <MenuItem mnemonicParsing="false" text="Copy" />
-            <MenuItem mnemonicParsing="false" text="Paste" />
-            <MenuItem mnemonicParsing="false" text="Delete" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-          </items>
-        </Menu>
-      </menus>
-    </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
          <children>
             <GridPane layoutX="-14.0" prefHeight="375.0" prefWidth="640.0">
@@ -82,7 +39,7 @@
                               <Insets bottom="10.0" left="70.0" right="15.0" top="10.0" />
                            </VBox.margin>
                         </Text>
-                        <TextField fx:id="txt_from" prefHeight="25.0" prefWidth="102.0">
+                        <TextField fx:id="txt_from" onKeyReleased="#onKeyReleasedSubmit" prefHeight="25.0" prefWidth="102.0">
                            <VBox.margin>
                               <Insets bottom="15.0" left="30.0" right="15.0" />
                            </VBox.margin>
@@ -92,12 +49,12 @@
                               <Insets left="60.0" right="15.0" />
                            </VBox.margin>
                         </Text>
-                        <ChoiceBox fx:id="cb_luggage" prefWidth="150.0">
+                        <ChoiceBox fx:id="cb_luggage" onMouseClicked="#onKeyReleasedSubmit" onMousePressed="#onKeyReleasedSubmit" onMouseReleased="#onKeyReleasedSubmit" prefWidth="150.0">
                            <VBox.margin>
                               <Insets left="30.0" right="15.0" top="10.0" />
                            </VBox.margin>
                         </ChoiceBox>
-                        <CheckBox fx:id="cbox_twoWay" mnemonicParsing="false" text="Two-Way">
+                        <CheckBox fx:id="cbox_twoWay" mnemonicParsing="false" onMouseClicked="#onKeyReleasedReturn" text="Two-Way">
                            <VBox.margin>
                               <Insets left="45.0" right="15.0" top="30.0" />
                            </VBox.margin>
@@ -116,7 +73,7 @@
                               <Insets bottom="10.0" left="80.0" right="15.0" top="10.0" />
                            </VBox.margin>
                         </Text>
-                        <TextField fx:id="txt_to" prefHeight="25.0" prefWidth="102.0">
+                        <TextField fx:id="txt_to" onKeyReleased="#onKeyReleasedSubmit" prefHeight="25.0" prefWidth="102.0">
                            <VBox.margin>
                               <Insets bottom="15.0" left="30.0" right="15.0" />
                            </VBox.margin>
@@ -126,7 +83,7 @@
                               <Insets left="60.0" right="15.0" />
                            </VBox.margin>
                         </Text>
-                        <ChoiceBox fx:id="cb_cabinClass" prefWidth="150.0">
+                        <ChoiceBox fx:id="cb_cabinClass" onMouseClicked="#onKeyReleasedSubmit" onMousePressed="#onKeyReleasedSubmit" onMouseReleased="#onKeyReleasedSubmit" prefWidth="150.0">
                            <VBox.margin>
                               <Insets left="30.0" right="15.0" top="10.0" />
                            </VBox.margin>
@@ -136,7 +93,7 @@
                               <Insets left="30.0" right="15.0" top="20.0" />
                            </VBox.margin>
                         </Text>
-                        <TextField fx:id="txt_numOfTrav" layoutX="40.0" layoutY="46.0" prefHeight="25.0" prefWidth="78.0">
+                        <TextField fx:id="txt_numOfTrav" layoutX="40.0" layoutY="46.0" onKeyReleased="#onKeyReleasedSubmit" prefHeight="25.0" prefWidth="78.0">
                            <VBox.margin>
                               <Insets left="60.0" right="50.0" top="10.0" />
                            </VBox.margin>
@@ -150,7 +107,7 @@
                               <Insets bottom="10.0" left="60.0" right="15.0" top="10.0" />
                            </VBox.margin>
                         </Text>
-                        <DatePicker fx:id="date_depart">
+                        <DatePicker fx:id="date_depart" editable="false" onHiding="#onKeyReleasedSubmit">
                            <VBox.margin>
                               <Insets bottom="15.0" left="15.0" right="15.0" />
                            </VBox.margin>
@@ -184,7 +141,7 @@
                               <Insets bottom="10.0" left="60.0" right="15.0" top="10.0" />
                            </VBox.margin>
                         </Text>
-                        <DatePicker fx:id="date_return">
+                        <DatePicker fx:id="date_return" disable="true" editable="false" onHiding="#onKeyReleasedSubmit">
                            <VBox.margin>
                               <Insets bottom="15.0" left="15.0" right="15.0" />
                            </VBox.margin>
@@ -194,7 +151,7 @@
                               <Insets left="50.0" right="15.0" />
                            </VBox.margin>
                         </Text>
-                        <TextField fx:id="txt_flightCmp" prefHeight="25.0" prefWidth="102.0">
+                        <TextField fx:id="txt_flightCmp" onKeyReleased="#onKeyReleasedSubmit" prefHeight="25.0" prefWidth="102.0">
                            <VBox.margin>
                               <Insets bottom="18.0" left="30.0" right="20.0" top="10.0" />
                            </VBox.margin>
@@ -204,14 +161,14 @@
                               <Insets left="45.0" />
                            </VBox.margin>
                         </Text>
-                        <TextField fx:id="txt_price" layoutX="40.0" layoutY="114.0" prefHeight="25.0" prefWidth="102.0">
+                        <TextField fx:id="txt_price" layoutX="40.0" layoutY="114.0" onKeyReleased="#onKeyReleasedSubmit" prefHeight="25.0" prefWidth="102.0">
                            <VBox.margin>
                               <Insets left="30.0" right="20.0" top="10.0" />
                            </VBox.margin>
                         </TextField>
                      </children>
                   </VBox>
-                  <Button fx:id="btn_submit" mnemonicParsing="false" prefHeight="41.0" prefWidth="60.0" text="Submit" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <Button fx:id="btn_submit" disable="true" mnemonicParsing="false" onAction="#createVacation" prefHeight="41.0" prefWidth="60.0" text="Submit" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                   <Text fill="#0099ff" strokeType="OUTSIDE" strokeWidth="0.0" text="Sell your" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets left="55.0" />

@@ -1,11 +1,15 @@
 package Controller;
 
 import Model.IModel;
+import javafx.collections.FXCollections;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.stage.Stage;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Optional;
 
 public class VacationCreateController implements Observer {
 
@@ -17,34 +21,102 @@ public class VacationCreateController implements Observer {
     public javafx.scene.control.TextField txt_numOfTrav;
     public javafx.scene.control.TextField txt_price;
 
+    public javafx.scene.control.ChoiceBox cb_luggage;
+    public javafx.scene.control.ChoiceBox cb_cabinClass;
+    public javafx.scene.control.ChoiceBox cb_vacType;
+
+    public javafx.scene.control.CheckBox cbox_twoWay;
+    public javafx.scene.control.CheckBox cbox_roomIncluded;
+
+    public javafx.scene.control.DatePicker date_depart;
+    public javafx.scene.control.DatePicker date_return;
+
+    public javafx.scene.control.Slider sld_sleepRank;
+
+    public javafx.scene.control.Button btn_submit;
+
     public void setModel(IModel model){
         this.model = model;
     }
 
     public void setUser_name(String user_name){ model.setUser_name(user_name); }
 
-    /*public void onKeyReleasedSignUp(){
-        boolean releasedSignUp = (txt_user_first_name.getText().isEmpty() || txt_user_last_name.getText().isEmpty() ||
-                txt_new_username.getText().isEmpty() || txt_user_city.getText().isEmpty() ||
-                txt_new_user_password.getText().isEmpty() ||
-                date_picker.getValue() == null);
-        btn_sign_up.setDisable(releasedSignUp);
+    public void setChoiceBox(){
+        cb_cabinClass.setItems(FXCollections.observableArrayList("1","2","3"));
+        cb_cabinClass.setValue("1");
 
-    }*/
+        cb_luggage.setItems(FXCollections.observableArrayList("1","2","3"));
+        cb_luggage.setValue("1");
+
+        cb_vacType.setItems(FXCollections.observableArrayList("1","2","3"));
+        cb_vacType.setValue("1");
+    }
+
+    public void onKeyReleasedSubmit(){
+        boolean releasedSubmit = (txt_from.getText().isEmpty() || txt_to.getText().isEmpty() ||
+                txt_flightCmp.getText().isEmpty() || txt_numOfTrav.getText().isEmpty() ||
+                txt_price.getText().isEmpty() || date_depart.getValue() == null ||
+                (cbox_twoWay.isSelected() && date_return.getValue() == null) ||
+                cb_luggage.getValue() == null || cb_cabinClass.getValue() == null ||
+                cb_vacType.getValue() == null);
+        btn_submit.setDisable(releasedSubmit);
+
+    }
+
+    public void onKeyReleasedReturn(){
+        boolean releasedReturn = (!cbox_twoWay.isSelected());
+        date_return.setDisable(releasedReturn);
+        onKeyReleasedSubmit();
+    }
 
     public void createVacation () {
-        String[] values = {model.getVacation_idx(), model.getUser_name(), };
+        String[] values = {model.getVacation_idx(), model.getUser_name(), txt_from.getText(), txt_to.getText(),
+                date_depart.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
+                "", txt_flightCmp.getText(), txt_price.getText(), txt_numOfTrav.getText(),
+                ""+cb_luggage.getValue(), ""+cb_cabinClass.getValue(), "0",
+                ""+cb_vacType.getValue(), "0", ""+sld_sleepRank.getValue()};
+        if (cbox_twoWay.isSelected()){
+            values[5] = date_return.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            values[11] = "1";
+        }
+        if (cbox_roomIncluded.isSelected())
+            values[13] = "1";
         model.createVacation(values);
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        try {
-            if (((Object[]) arg)[0].equals("")) {
+        try{
+            Object obj = ((Object[])arg)[0];
+            String str = (String)obj;
+            switch(str){
+                case "create vacation failed":
+                    showAlert("Create Vacation Failed", "Create vacation failed, please try again.");
+                    break;
+
+                case "create vacation succeeded":
+                    //openRud(txt_id_user.getText());
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Create Vacation Succeeded");
+                    Optional<ButtonType> reasult = alert.showAndWait();
+                    if(reasult.get() == ButtonType.OK)
+                        alert.close();
+                    Stage prim = (Stage) txt_from.getScene().getWindow();
+                    prim.close();
+                    break;
 
             }
         } catch (Exception e){
 
         }
+    }
+
+    private void showAlert(String title, String headerText){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(headerText);
+        Optional<ButtonType> reasult = alert.showAndWait();
+        if(reasult.get() == ButtonType.OK)
+            alert.close();
     }
 }

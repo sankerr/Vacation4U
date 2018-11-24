@@ -10,7 +10,7 @@ public class Data_base {
 
     public Data_base(String fileName) {
         db_Name = fileName;
-        Vacation_idx = 1;
+        Vacation_idx = getLastIDX()+1;
         String url = "jdbc:sqlite:" + fileName;
         Connection c = null;
         try {
@@ -71,13 +71,12 @@ public class Data_base {
                     " Flight_company VARCHAR(20) NOT NULL, " +
                     " Price INTEGER NOT NULL, " +
                     " Num_of_ticket INTEGER NOT NULL, " +
-                    " Luggage VARCHAR(10) NOT NULL, " +
-                    " ticket_type VARCHAR(10) NOT NULL, " +
+                    " Luggage VARCHAR(15) NOT NULL, " +
+                    " ticket_type VARCHAR(15) NOT NULL, " +
                     " To_way INTEGER NOT NULL, " +
                     " Vacation_type VARCHAR(30) NOT NULL, " +
                     " Sleep_included INTEGER NOT NULL, " +
-                    " Sleep_rank INTEGER NOT NULL, " +
-                    " Sleep_name VARCHAR(30) NOT NULL)";
+                    " Sleep_rank INTEGER NOT NULL)";
             stmt.executeUpdate(sql);
             stmt.close();
             c.close();
@@ -129,7 +128,7 @@ public class Data_base {
             else if (table == "VACATION") {
                 sql = "INSERT INTO VACATION (Vacation_IDX,User_name,FlyFrom,Dest,Start_date,End_date," +
                         "Flight_company,Price,Num_of_ticket,Luggage,ticket_type,To_way," +
-                        "Vacation_type,Sleep_included,Sleep_rank,Sleep_name) VALUES (";
+                        "Vacation_type,Sleep_included,Sleep_rank) VALUES (";
             }
             for(int i=0;i<values.length-1;i++) {
                 sql += "'" + values[i] + "', ";
@@ -255,5 +254,35 @@ public class Data_base {
             return true;
         else
             return false;
+    }
+
+    public int getLastIDX(){
+        Connection c = null;
+        Statement stmt = null;
+        int max = 0;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:" + this.db_Name);
+            c.setAutoCommit(false);
+
+            String sql = "SELECT * FROM VACATION;";
+            stmt = c.createStatement();
+
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                int Vacation_IDX = Integer.parseInt(rs.getString("Vacation_IDX"));
+                if (Vacation_IDX>max)
+                    max = Vacation_IDX;
+            }
+            rs.close();
+            stmt.close();
+            c.close();
+
+
+        } catch (Exception e) {
+            //System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+        return max;
     }
 }
