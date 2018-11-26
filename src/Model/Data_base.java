@@ -257,42 +257,39 @@ public class Data_base {
             return false;
     }
 
-    public ArrayList<String[]> getVacations(){
+    public ArrayList<Fly> getVacations(){
         Connection c = null;
         PreparedStatement stmt = null;
-        ArrayList<String[]> ans = new ArrayList<String[]>();
-        String table = "VACATION";
+        ArrayList<Fly> ans = new ArrayList<Fly>();
         try {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:" + this.db_Name);
             c.setAutoCommit(false);
 
-            String sql = "SELECT * FROM "+table+";";
+            String sql = "SELECT * FROM VACATION;";
             stmt = c.prepareStatement(sql);
 
             // set the value
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                String vacation_IDX = rs.getString("Vacation_IDX");
+                String Vacation_Index = rs.getString("Vacation_IDX");
                 String user_name = rs.getString("User_name");
-                String flyFrom = rs.getString("FlyFrom");
-                String dest = rs.getString("Dest");
-                String start_date = rs.getString("Start_date");
-                String end_date = rs.getString("End_date");
+                String From = rs.getString("FlyFrom");
+                String To = rs.getString("Dest");
+                String Depart = rs.getString("Start_date");
+                String Return_Date = rs.getString("End_date");
                 String flight_company = rs.getString("Flight_company");
                 String price = rs.getString("Price");
-                String num_of_ticket = rs.getString("Num_of_ticket");
+                String num_of_tickets = rs.getString("Num_of_ticket");
                 String luggage = rs.getString("Luggage");
                 String ticket_type = rs.getString("ticket_type");
-                String to_way = rs.getString("To_way");
                 String vacation_type = rs.getString("Vacation_type");
                 String sleep_included = rs.getString("Sleep_included");
                 String sleep_rank = rs.getString("Sleep_rank");
-                String sleep_name = rs.getString("Sleep_name");
-                String[] str = {vacation_IDX, user_name, flyFrom, dest, start_date, end_date,
-                        flight_company, price, num_of_ticket, luggage, ticket_type, to_way,
-                        vacation_type, sleep_included, sleep_rank, sleep_name};
-                ans.add(str);
+                Fly fly = new Fly(Vacation_Index, user_name, From, To, Depart, Return_Date,
+                            flight_company, price, num_of_tickets, luggage, ticket_type,
+                            vacation_type, sleep_included, sleep_rank);
+                ans.add(fly);
             }
             rs.close();
             stmt.close();
@@ -302,6 +299,18 @@ public class Data_base {
         }
         return ans;
     }
+
+
+    public ArrayList<Fly> getVacationToDelete(String user_name){
+        ArrayList<Fly> list = this.getVacations();
+        ArrayList<Fly> ans = new ArrayList<Fly>();
+        for(Fly fly : list){
+            if (fly.getUser_name() == user_name)
+                ans.add(fly);
+        }
+        return ans;
+    }
+
 
     public int getLastIDX(){
         Connection c = null;

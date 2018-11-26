@@ -127,11 +127,18 @@ public class Model extends Observable implements IModel {
         return db.getVacation_idx();
     }
 
-    public ArrayList<String[]>  getVacation(){
-        ArrayList<String[]> ans = new ArrayList<String[]>();
+    public ArrayList<Fly>  getVacation(){
+        ArrayList<Fly> ans = new ArrayList<Fly>();
         ans = db.getVacations();
         return ans;
     }
+
+    public ArrayList<Fly>  getVacationToDelete(){
+        ArrayList<Fly> ans = new ArrayList<Fly>();
+        ans = db.getVacationToDelete(this.user_name);
+        return ans;
+    }
+
     @Override
     public void deleteVacation(String deleteMe) {
         if(db.Delete("VACATION","Vacation_IDX",deleteMe)) {
