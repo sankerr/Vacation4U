@@ -42,14 +42,14 @@ public class VacationCreateController implements Observer {
     public void setUser_name(String user_name){ model.setUser_name(user_name); }
 
     public void setChoiceBox(){
-        cb_cabinClass.setItems(FXCollections.observableArrayList("1","2","3"));
-        cb_cabinClass.setValue("1");
+        cb_cabinClass.setItems(FXCollections.observableArrayList("Economy","Economy plus","Business","First Class"));
+        cb_cabinClass.setValue("Economy");
 
-        cb_luggage.setItems(FXCollections.observableArrayList("1","2","3"));
-        cb_luggage.setValue("1");
+        cb_luggage.setItems(FXCollections.observableArrayList("Handbag only","Up to 23 KG"));
+        cb_luggage.setValue("Handbag only");
 
-        cb_vacType.setItems(FXCollections.observableArrayList("1","2","3"));
-        cb_vacType.setValue("1");
+        cb_vacType.setItems(FXCollections.observableArrayList("Exotic","Urban"));
+        cb_vacType.setValue("Exotic");
     }
 
     public void onKeyReleasedSubmit(){

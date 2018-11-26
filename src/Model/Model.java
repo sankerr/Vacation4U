@@ -126,4 +126,24 @@ public class Model extends Observable implements IModel {
     public String getVacation_idx() {
         return db.getVacation_idx();
     }
+
+    public ArrayList<String[]>  getVacation(){
+        ArrayList<String[]> ans = new ArrayList<String[]>();
+        ans = db.getVacations();
+        return ans;
+    }
+    @Override
+    public void deleteVacation(String deleteMe) {
+        if(db.Delete("VACATION","Vacation_IDX",deleteMe)) {
+            Object[] args = {"vacation deleted"};
+            setChanged();
+            notifyObservers(args);
+        }
+        else{
+            Object[] args = {"delete vacation failed"};
+            setChanged();
+            notifyObservers(args);
+        }
+    }
+
 }

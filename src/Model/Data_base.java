@@ -10,7 +10,7 @@ public class Data_base {
 
     public Data_base(String fileName) {
         db_Name = fileName;
-        Vacation_idx = getLastIDX()+1;
+        Vacation_idx = getLastIDX() + 1;
         String url = "jdbc:sqlite:" + fileName;
         Connection c = null;
         try {
@@ -143,7 +143,7 @@ public class Data_base {
             c.commit();
             c.close();
         } catch (Exception e) {
-
+            e.printStackTrace();
             try {
                 c.close();
                 stmt.close();
@@ -236,6 +236,7 @@ public class Data_base {
             c.commit();
             stmt.close();
             c.close();
+            return true;
         } catch ( Exception e ) {
             try {
                 c.close();
@@ -254,6 +255,52 @@ public class Data_base {
             return true;
         else
             return false;
+    }
+
+    public ArrayList<String[]> getVacations(){
+        Connection c = null;
+        PreparedStatement stmt = null;
+        ArrayList<String[]> ans = new ArrayList<String[]>();
+        String table = "VACATION";
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:" + this.db_Name);
+            c.setAutoCommit(false);
+
+            String sql = "SELECT * FROM "+table+";";
+            stmt = c.prepareStatement(sql);
+
+            // set the value
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String vacation_IDX = rs.getString("Vacation_IDX");
+                String user_name = rs.getString("User_name");
+                String flyFrom = rs.getString("FlyFrom");
+                String dest = rs.getString("Dest");
+                String start_date = rs.getString("Start_date");
+                String end_date = rs.getString("End_date");
+                String flight_company = rs.getString("Flight_company");
+                String price = rs.getString("Price");
+                String num_of_ticket = rs.getString("Num_of_ticket");
+                String luggage = rs.getString("Luggage");
+                String ticket_type = rs.getString("ticket_type");
+                String to_way = rs.getString("To_way");
+                String vacation_type = rs.getString("Vacation_type");
+                String sleep_included = rs.getString("Sleep_included");
+                String sleep_rank = rs.getString("Sleep_rank");
+                String sleep_name = rs.getString("Sleep_name");
+                String[] str = {vacation_IDX, user_name, flyFrom, dest, start_date, end_date,
+                        flight_company, price, num_of_ticket, luggage, ticket_type, to_way,
+                        vacation_type, sleep_included, sleep_rank, sleep_name};
+                ans.add(str);
+            }
+            rs.close();
+            stmt.close();
+            c.close();
+        } catch (Exception e) {
+
+        }
+        return ans;
     }
 
     public int getLastIDX(){

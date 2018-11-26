@@ -160,8 +160,9 @@ public class Controller implements IController, Observer {
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Vacation4U App");
-            stage.setScene(new Scene(root, 600, 450));
+            stage.setScene(new Scene(root, 1280, 650));
             root.setStyle("-fx-background-color: white");
+            stage.setResizable(true);
 
             if(vacationPanelController == null){
                 vacationPanelController = fxmlLoader.getController();
@@ -179,7 +180,7 @@ public class Controller implements IController, Observer {
             //rudController.setAbout();
             Stage prim = (Stage) this.btn_sign_up.getScene().getWindow();
             prim.close();
-            stage.setResizable(false);
+
             stage.show();
         } catch (IOException e) {
 

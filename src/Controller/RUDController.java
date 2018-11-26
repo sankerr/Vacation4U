@@ -31,6 +31,7 @@ public class RUDController implements Observer{
     private Controller controller;
     private VacationPanelController vacationPanelController;
     private VacationCreateController vacationCreateController;
+    private VacationDeleteController vacationDeleteController;
 
     public javafx.scene.control.MenuBar menu;
     public javafx.scene.image.ImageView iv_about;
@@ -192,7 +193,7 @@ public class RUDController implements Observer{
             Scene scene = new Scene(root, 600, 450);
             stage.setScene(scene);
             root.setStyle("-fx-background-color: white");
-            stage.setResizable(false);
+            stage.setFullScreen(true);
             //-------
             if(vacationPanelController == null){
                 vacationPanelController = fxmlLoader.getController();
@@ -233,43 +234,39 @@ public class RUDController implements Observer{
             vacationCreateController.setModel(model);
             vacationCreateController.setUser_name(model.getUser_name());
             vacationCreateController.setChoiceBox();
-            stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.show();
         } catch (IOException e) {
 
         }
     }
 
-
     public void OpenDeleteVacation(ActionEvent actionEvent) {
-        /*
         try {
             Stage stage = new Stage();
-            stage.setTitle("Vacation4U");
+            stage.setTitle("Vacation4U - Delete Vacation");
             FXMLLoader fxmlLoader = new FXMLLoader();
-            Parent root = fxmlLoader.load(getClass().getResource("/View/sample.fxml").openStream());
+            Parent root = fxmlLoader.load(getClass().getResource("/View/VacationDelete.fxml").openStream());
             Scene scene = new Scene(root, 600, 450);
             stage.setScene(scene);
             root.setStyle("-fx-background-color: white");
             stage.setResizable(false);
             //-------
-            if(controller == null){
-                controller = fxmlLoader.getController();
-                ((Model)model).addObserver(controller);
+            if(vacationDeleteController == null){
+                vacationDeleteController = fxmlLoader.getController();
+                ((Model)model).addObserver(vacationDeleteController);
             }
             else {
-                ((Model)model).deleteObserver(controller);
-                controller = fxmlLoader.getController();
-                ((Model)model).addObserver(controller);
+                ((Model)model).deleteObserver(vacationDeleteController);
+                vacationDeleteController = fxmlLoader.getController();
+                ((Model)model).addObserver(vacationDeleteController);
             }
-            controller.setModel(model);
-            controller.setRUDController(this);
-            controller.setLogo();
+            vacationDeleteController.setModel(model);
+            //controller.setRUDController(this);
+            //controller.setLogo();
             stage.show();
         } catch (IOException e) {
 
         }
-        */
     }
 
 
