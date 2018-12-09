@@ -5,28 +5,21 @@ import Model.IModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.ResourceBundle;
 
-public class VacationDeleteController implements Observer, Initializable {
+public class VacationDeleteController implements Observer {
 
     public ObservableList<Fly> list = FXCollections.observableArrayList();
-    private IModel model;
-    public Button btn_submit;
     public TableView<Fly> table;
-    public TextField txt_idxOfVacation;
-
-
-    public void setModel(IModel model) {
-        this.model = model;
-    }
+    public Button btn_delete;
+    private IModel model;
+    private String userName;
+    public javafx.scene.control.TextField txt_idxOfVacation;
 
     @Override
     public void update(Observable o, Object arg) {
@@ -41,16 +34,11 @@ public class VacationDeleteController implements Observer, Initializable {
         }
     }
 
-    private void exitDeletePanel() {
-        //Stage stage = (Stage) btn_submit.getScene().getWindow();
-        //stage.close();
-    }
-
-    public void deleteVacation(ActionEvent actionEvent) {
+    public void deleteVacation() {
         String deleteMe = txt_idxOfVacation.getText();
 
         //if the user wrote something:
-        if((deleteMe != null) && (!deleteMe.equals(""))) {
+        if((deleteMe != null) && (!deleteMe.equals("") && onList(deleteMe))) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setContentText("Are you sure you want to delete this vacation?");
             ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
@@ -67,15 +55,23 @@ public class VacationDeleteController implements Observer, Initializable {
         else {//if the text field is empty:
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
-            alert.setHeaderText("You need to fill the number of vacation you want to delete!");
+            alert.setHeaderText("Please select a valid vacation number from the table");
             alert.showAndWait();
         }
 
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    private void exitDeletePanel() {
+        //Stage stage = (Stage) btn_submit.getScene().getWindow();
+        //stage.close();
+    }
 
+
+    public void setModel(IModel model) {
+        this.model = model;
+    }
+
+    public void set() {
         String[] str = {"Vacation Index", "User Name", "From", "To", "Depart", "Return Date",
                 "Flight Company", "Total Price in $" , "Number Of Tickets", "Luggage",
                 "Ticket Type", "Vacation Type", "Sleep Included", "Sleep Rank"};
@@ -171,11 +167,23 @@ public class VacationDeleteController implements Observer, Initializable {
         //connect between the list and the table
         table.setItems(list);
         // add flights to list
-        //list.add( new Fly("1", "Jacob", "24", "mmmm", "jacob.smith@example.com", "jacob.smith@example.com","1","2","3","4","10"));
-        //list.add( new Fly("2", "Motek", "Habibi", "danny shin", "halas", "tzizerit","96","guy shani","avi elly","agadir","yosef burger"));
-        list.add( new Fly("3", "s",  "a", "s","WhereIsMyFreedom?", "StopWorking", "Diesel", "barbur", "itzik_d","maor","anael","raanan","pilo","matan"));
+        ArrayList<Fly> flys = model.getVacationToDelete();
+        for( Fly f : flys){
+            list.add(f);
+        }
         // enter the cols to the table
         table.getColumns().addAll(vac_idx,user_name,from,to,depart,return_date,flight_company,total_price,num_of_tickets,luggage,ticket_type,vac_type,sleep_included,sleep_rank);
 
+    }
+
+    private boolean onList(String text) {
+        boolean ans = false;
+        for( Fly f : this.list){
+            if(text.equals(f.getVacation_Index())){
+                ans = true;
+                break;
+            }
+        }
+        return ans;
     }
 }

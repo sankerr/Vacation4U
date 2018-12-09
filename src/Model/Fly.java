@@ -36,8 +36,14 @@ public class Fly {
         this.luggage = new SimpleStringProperty(luggage);
         this.cabin_class = new SimpleStringProperty(cabin_class);
         this.vac_type = new SimpleStringProperty(vac_type);
-        this.sleep_included = new SimpleStringProperty(sleep_included);
-        this.sleep_rank = new SimpleStringProperty(sleep_rank);
+        if (sleep_included.equals("1"))
+            this.sleep_included = new SimpleStringProperty("Yes");
+        else
+            this.sleep_included = new SimpleStringProperty("No");
+        if (sleep_included.equals("1"))
+            this.sleep_rank = new SimpleStringProperty(sleep_rank);
+        else
+            this.sleep_rank = new SimpleStringProperty("");
     }
 
     public String getVacation_Index() {

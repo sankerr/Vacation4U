@@ -108,7 +108,6 @@ public class RUDController implements Observer{
                 ((Model)model).addObserver(readController);
             }
             readController.setModel(model);
-
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.setResizable(false);
             stage.show();
@@ -184,17 +183,17 @@ public class RUDController implements Observer{
         }
     }
 
-    public void OpenVacationPanel(ActionEvent actionEvent) {
+    public void OpenVacationPanel() {
         try {
-            Stage stage = new Stage();
-            stage.setTitle("Vacation4U App");
             FXMLLoader fxmlLoader = new FXMLLoader();
             Parent root = fxmlLoader.load(getClass().getResource("/View/VacationPanel.fxml").openStream());
-            Scene scene = new Scene(root, 600, 450);
-            stage.setScene(scene);
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Vacation4U App");
+            stage.setScene(new Scene(root, 1280, 650));
             root.setStyle("-fx-background-color: white");
-            stage.setFullScreen(true);
-            //-------
+            stage.setResizable(true);
+
             if(vacationPanelController == null){
                 vacationPanelController = fxmlLoader.getController();
                 ((Model)model).addObserver(vacationPanelController);
@@ -205,14 +204,17 @@ public class RUDController implements Observer{
                 ((Model)model).addObserver(vacationPanelController);
             }
             vacationPanelController.setModel(model);
+            vacationPanelController.set();
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.show();
         } catch (IOException e) {
 
         }
     }
 
-    public void OpenNewVacation(ActionEvent actionEvent) {
+    public void OpenNewVacation() {
         try {
+
             Stage stage = new Stage();
             stage.setTitle("Vacation4U");
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -234,22 +236,24 @@ public class RUDController implements Observer{
             vacationCreateController.setModel(model);
             vacationCreateController.setUser_name(model.getUser_name());
             vacationCreateController.setChoiceBox();
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.show();
         } catch (IOException e) {
 
         }
     }
 
-    public void OpenDeleteVacation(ActionEvent actionEvent) {
+    public void OpenDeleteVacation() {
         try {
-            Stage stage = new Stage();
-            stage.setTitle("Vacation4U - Delete Vacation");
             FXMLLoader fxmlLoader = new FXMLLoader();
             Parent root = fxmlLoader.load(getClass().getResource("/View/VacationDelete.fxml").openStream());
-            Scene scene = new Scene(root, 600, 450);
-            stage.setScene(scene);
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Vacation4U - Delete Vacation");
+            stage.setScene(new Scene(root, 1280, 670));
             root.setStyle("-fx-background-color: white");
-            stage.setResizable(false);
+            stage.setResizable(true);
+
             //-------
             if(vacationDeleteController == null){
                 vacationDeleteController = fxmlLoader.getController();
@@ -261,8 +265,8 @@ public class RUDController implements Observer{
                 ((Model)model).addObserver(vacationDeleteController);
             }
             vacationDeleteController.setModel(model);
-            //controller.setRUDController(this);
-            //controller.setLogo();
+            vacationDeleteController.set();
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.show();
         } catch (IOException e) {
 

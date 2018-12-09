@@ -70,19 +70,61 @@ public class VacationCreateController implements Observer {
     }
 
     public void createVacation () {
-        String[] values = {model.getVacation_idx(), model.getUser_name(), txt_from.getText(), txt_to.getText(),
-                date_depart.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
-                "", txt_flightCmp.getText(), txt_price.getText(), txt_numOfTrav.getText(),
-                ""+cb_luggage.getValue(), ""+cb_cabinClass.getValue(), "0",
-                ""+cb_vacType.getValue(), "0", ""+sld_sleepRank.getValue()};
-        if (cbox_twoWay.isSelected()){
-            values[5] = date_return.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            values[11] = "1";
+
+        //check if all the fields are ok
+        if(CheckValidity()) {
+            String[] values = {model.getVacation_idx(), model.getUser_name(), txt_from.getText(), txt_to.getText(),
+                    date_depart.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
+                    "", txt_flightCmp.getText(), txt_price.getText(), txt_numOfTrav.getText(),
+                    "" + cb_luggage.getValue(), "" + cb_cabinClass.getValue(), "0",
+                    "" + cb_vacType.getValue(), "0", "" + (int)((sld_sleepRank.getValue()*5)/100)};
+
+            if (cbox_twoWay.isSelected()) {
+                if (DatesValid()) {
+                    values[5] = date_return.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    values[11] = "1";
+
+                    if (cbox_roomIncluded.isSelected())
+                        values[13] = "1";
+                }
+            }
+            model.createVacation(values);
         }
-        if (cbox_roomIncluded.isSelected())
-            values[13] = "1";
-        model.createVacation(values);
     }
+
+    private boolean DatesValid() {
+        if(date_depart.getValue().isAfter(date_return.getValue())) {
+            showAlert("Error","Return date must be after departure date!");
+            return false;
+        }
+        return true;
+    }
+
+    //this function check if all the fields are ok
+    private boolean CheckValidity() {
+        if((txt_from.getText() == "") || (!isAlphaWord(txt_from.getText().replaceAll(" ",""))) ||
+                (txt_to.getText() == "") || (!isAlphaWord(txt_to.getText().replaceAll(" ",""))) ||
+                (txt_flightCmp.getText() == "") || (!isAlphaWord(txt_flightCmp.getText())) ||
+                (txt_numOfTrav.getText() == "") || (!isNumeric(txt_numOfTrav.getText())) ||
+                (txt_price.getText() == "") || (!isNumeric(txt_price.getText()))) {
+            showAlert("Error","Some fields are empty or incorrect \n please try again");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isAlphaWord(String name) {
+        return name.matches("[a-zA-Z]+");
+    }
+
+    public static boolean isNumeric(String str)
+    {
+        for (char c : str.toCharArray())
+            if (!Character.isDigit(c))
+                return false;
+        return true;
+    }
+
 
     @Override
     public void update(Observable o, Object arg) {

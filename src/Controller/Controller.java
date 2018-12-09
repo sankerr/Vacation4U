@@ -153,7 +153,7 @@ public class Controller implements IController, Observer {
         }
     }
 
-    public void OpenVacationPanel(ActionEvent actionEvent) {
+    public void OpenVacationPanel() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             Parent root = fxmlLoader.load(getClass().getResource("/View/VacationPanel.fxml").openStream());
@@ -173,14 +173,10 @@ public class Controller implements IController, Observer {
                 vacationPanelController = fxmlLoader.getController();
                 ((Model)model).addObserver(vacationPanelController);
             }
-
+            model.setUser_name("");
             vacationPanelController.setModel(model);
-            //rudController.setUser_name(user_name);
-            //rudController.setController(this);
-            //rudController.setAbout();
-            Stage prim = (Stage) this.btn_sign_up.getScene().getWindow();
-            prim.close();
-
+            vacationPanelController.set();
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.show();
         } catch (IOException e) {
 

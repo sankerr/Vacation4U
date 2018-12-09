@@ -3,37 +3,68 @@ import Model.Fly;
 import Model.IModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.Initializable;
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.ResourceBundle;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import java.util.Optional;
+
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 
-public class VacationPanelController implements Observer,Initializable  {
+public class VacationPanelController implements Observer  {
 
      public ObservableList<Fly> list = FXCollections.observableArrayList();
      public TableView<Fly> table;
+     public Hyperlink hl_home;
+     public TextField tf_idx;
+     public TextField tf_dest;
+     public Button btn_buy;
+     public Button btn_search;
      private IModel model;
-     private String userName;
 
     @Override
     public void update(Observable o, Object arg) {
+        try{
+            Object obj = ((Object[])arg)[0];
+            String str = (String)obj;
+            switch(str){
+                case "create vacation failed":
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Vacation purchase failed");
+                    alert.setHeaderText("A malfunction occurred during the sting, please try again");
+                    Optional<ButtonType> reasult = alert.showAndWait();
+                    if(reasult.get() == ButtonType.OK)
+                        alert.close();
+                    break;
+
+                case "make payment succeeded":
+                    //openRud(txt_id_user.getText());
+                    Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert2.setTitle("Vacation purchase successful");
+                    alert2.setHeaderText("You bought yourself a new vacation.\r\n" + "Hope you enjoy.");
+                    Optional<ButtonType> reasult2 = alert2.showAndWait();
+                    if(reasult2.get() == ButtonType.OK)
+                        alert2.close();
+                    Stage prim = (Stage) btn_buy.getScene().getWindow();
+                    prim.close();
+                    break;
+
+            }
+        } catch (Exception e){
+
+        }
     }
 
     public void setModel(IModel model) {
         this.model = model;
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
+    public void set() {
         String[] str = {"Vacation Index", "User Name", "From", "To", "Depart", "Return Date",
                 "Flight Company", "Total Price in $" , "Number Of Tickets", "Luggage",
-                "Ticket Type", "Vacation Type", "Sleep Included", "Sleep Rank"};
+                "Ticket Type", "Vacation Type", "Sleep Included", "Sleep Rank (Between 0-5)"};
 
         TableColumn vac_idx = new TableColumn(str[0]);
         vac_idx.setMinWidth(120);
@@ -125,13 +156,106 @@ public class VacationPanelController implements Observer,Initializable  {
 
         //connect between the list and the table
         table.setItems(list);
-        // add flights to list
-        //list.add( new Fly("1", "Jacob", "24", "mmmm", "jacob.smith@example.com", "jacob.smith@example.com","1","2","3","4","10"));
-        //list.add( new Fly("2", "Motek", "Habibi", "danny shin", "halas", "tzizerit","96","guy shani","avi elly","agadir","yosef burger"));
-        list.add( new Fly("3", "s",  "a", "s","WhereIsMyFreedom?", "StopWorking", "Diesel", "barbur", "itzik_d","maor","anael","raanan","pilo","matan"));
+        String user_name_connect = model.getUser_name();
+        ArrayList<Fly> flys = model.getVacation();
+        for( Fly f : flys){
+            if (user_name_connect.equals(""))
+                list.add(f);
+            else {
+                if (!f.getUser_name().equals(user_name_connect)){
+                    list.add(f);
+                }
+            }
+        }
         // enter the cols to the table
         table.getColumns().addAll(vac_idx,user_name,from,to,depart,return_date,flight_company,total_price,num_of_tickets,luggage,ticket_type,vac_type,sleep_included,sleep_rank);
+        if (!model.getUser_name().equals(""))
+            hl_home.setDisable(true);
+    }
 
+    public void goHome(){
+        Stage prim = (Stage) this.hl_home.getScene().getWindow();
+        prim.close();
+    }
+
+    public void onKeyReleasedBuy(){
+        boolean releasedBuy = (tf_idx.getText().isEmpty());
+        btn_buy.setDisable(releasedBuy);
+    }
+
+    public void onKeyReleasedSearch(){
+        boolean releasedSearch = (tf_dest.getText().isEmpty());
+        btn_search.setDisable(releasedSearch);
+    }
+
+    public void searchFunction(){
+        String dest = tf_dest.getText();
+        ArrayList<Fly> flys = model.getVacation();
+        for( Fly f : flys){
+            if (dest.equals(f.getTo()))
+                list.add(f);
+        }
+        table.setItems(list);
+    }
+
+
+    public void buyFunction(){
+        if (model.getUser_name().equals("")){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("To continue purchasing a vacation, sign up to Vacation4U");
+            //Optional<ButtonType> reasult = alert.showAndWait();
+            ButtonType yesButton = new ButtonType("Take me to sign up", ButtonBar.ButtonData.YES);
+            ButtonType noButton = new ButtonType("No, Sorry", ButtonBar.ButtonData.NO);
+            alert.getButtonTypes().setAll(yesButton, noButton);
+
+            //checking what the user choosed
+            alert.showAndWait().ifPresent((buttonType) -> {
+                if (buttonType == yesButton) {
+                    Stage prim = (Stage) this.hl_home.getScene().getWindow();
+                    prim.close();
+                }
+            });
+        }
+        else {
+            if (isNumeric(tf_idx.getText()) && onList(tf_idx.getText())){
+                Fly fly = null;
+                for( Fly f : this.list){
+                    if(tf_idx.getText().equals(f.getVacation_Index())){
+                        fly = f;
+                        break;
+                    }
+                }
+                String[] values={tf_idx.getText(), fly.getUser_name(), model.getUser_name(), fly.getPrice()};
+                model.makePayment(values);
+            }
+            else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("");
+                alert.setHeaderText("Vacation index must be a number in te table");
+                Optional<ButtonType> reasult = alert.showAndWait();
+                if(reasult.get() == ButtonType.OK)
+                    alert.close();
+            }
+        }
+    }
+
+    private boolean onList(String text) {
+        boolean ans = false;
+        for( Fly f : this.list){
+            if(text.equals(f.getVacation_Index())){
+                ans = true;
+                break;
+            }
+        }
+        return ans;
+    }
+
+    public static boolean isNumeric(String str)
+    {
+        for (char c : str.toCharArray())
+            if (!Character.isDigit(c))
+                return false;
+        return true;
     }
 
 }

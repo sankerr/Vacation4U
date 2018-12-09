@@ -130,6 +130,9 @@ public class Data_base {
                         "Flight_company,Price,Num_of_ticket,Luggage,ticket_type,To_way," +
                         "Vacation_type,Sleep_included,Sleep_rank) VALUES (";
             }
+            else if (table == "PAYMENT") {
+                sql = "INSERT INTO PAYMENT (Payment_IDX, User_name_seller, User_name_buyer, Finel_Price) VALUES (";
+            }
             for(int i=0;i<values.length-1;i++) {
                 sql += "'" + values[i] + "', ";
             }
@@ -305,7 +308,7 @@ public class Data_base {
         ArrayList<Fly> list = this.getVacations();
         ArrayList<Fly> ans = new ArrayList<Fly>();
         for(Fly fly : list){
-            if (fly.getUser_name() == user_name)
+            if (fly.getUser_name().equals(user_name))
                 ans.add(fly);
         }
         return ans;

@@ -108,7 +108,7 @@ public class Model extends Observable implements IModel {
         return ans;
     }
 
-
+    @Override
     public void createVacation(String[] values){
         if(db.Insert("VACATION", values)) {
             Object[] args = {"create vacation succeeded"};
@@ -123,16 +123,33 @@ public class Model extends Observable implements IModel {
     }
 
     @Override
+    public void makePayment(String[] values){
+        if(db.Insert("PAYMENT", values)) {
+            Object[] args = {"make payment succeeded"};
+            db.Delete("VACATION","Vacation_IDX",values[0]);
+            setChanged();
+            notifyObservers(args);
+        }
+        else{
+            Object[] args = {"make payment failed"};
+            setChanged();
+            notifyObservers(args);
+        }
+    }
+
+    @Override
     public String getVacation_idx() {
         return db.getVacation_idx();
     }
 
+    @Override
     public ArrayList<Fly>  getVacation(){
         ArrayList<Fly> ans = new ArrayList<Fly>();
         ans = db.getVacations();
         return ans;
     }
 
+    @Override
     public ArrayList<Fly>  getVacationToDelete(){
         ArrayList<Fly> ans = new ArrayList<Fly>();
         ans = db.getVacationToDelete(this.user_name);

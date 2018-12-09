@@ -17,4 +17,8 @@ public interface IModel {
     void createVacation(String[] values);
     String getVacation_idx();
     void deleteVacation(String deleteMe);
+    ArrayList<Fly>  getVacation();
+    ArrayList<Fly>  getVacationToDelete();
+
+    void makePayment(String[] values);
 }
