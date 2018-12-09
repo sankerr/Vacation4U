@@ -8,6 +8,8 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -18,7 +20,6 @@ public class VacationDeleteController implements Observer {
     public TableView<Fly> table;
     public Button btn_delete;
     private IModel model;
-    private String userName;
     public javafx.scene.control.TextField txt_idxOfVacation;
 
     @Override
@@ -49,6 +50,8 @@ public class VacationDeleteController implements Observer {
             alert.showAndWait().ifPresent((buttonType) -> {
                 if (buttonType == yesButton) {
                     model.deleteVacation(deleteMe);
+                    Stage prim = (Stage) this.btn_delete.getScene().getWindow();
+                    prim.close();
                 }
             });
         }

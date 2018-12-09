@@ -46,9 +46,7 @@ public class UpdateController implements Observer{
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Edit Error");
             alert.setHeaderText("You must enter at least one update parameter");
-            Optional<ButtonType> reasult = alert.showAndWait();
-            if(reasult.get() == ButtonType.OK)
-                alert.close();
+            alert.showAndWait();
         }
         else if((!txt_username.getText().isEmpty() && !model.searchUserName(txt_username.getText()))
                 && !txt_username.getText().equals(model.getUser_name())){
@@ -56,9 +54,7 @@ public class UpdateController implements Observer{
             alert.setTitle("Edit Error");
             alert.setHeaderText("The username already exists in the system\r\n" +
                     "Please select a different username");
-            Optional<ButtonType> reasult = alert.showAndWait();
-            if(reasult.get() == ButtonType.OK)
-                alert.close();
+            alert.showAndWait();
         }
         else {
             String[] data = new String[7];

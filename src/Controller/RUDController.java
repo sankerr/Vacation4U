@@ -123,7 +123,7 @@ public class RUDController implements Observer{
         ButtonType noButton = new ButtonType("No, Sorry", ButtonBar.ButtonData.NO);
         alert.getButtonTypes().setAll(yesButton,noButton);
 
-        //checking what the player choose
+        //checking what the user choose
         alert.showAndWait().ifPresent((buttonType) -> {
             if(buttonType == yesButton){
                 model.deleteUser(model.getUser_name());
@@ -136,6 +136,12 @@ public class RUDController implements Observer{
             ((Model)model).deleteObserver(readController);
         if(updateController != null)
             ((Model)model).deleteObserver(updateController);
+        if(vacationPanelController != null)
+            ((Model)model).deleteObserver(vacationPanelController);
+        if(vacationCreateController != null)
+            ((Model)model).deleteObserver(vacationCreateController);
+        if(vacationDeleteController != null)
+            ((Model)model).deleteObserver(vacationDeleteController);
         Stage prim = (Stage) menu.getScene().getWindow();
         prim.close();
         openMainView();

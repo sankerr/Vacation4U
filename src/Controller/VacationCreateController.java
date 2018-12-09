@@ -104,7 +104,7 @@ public class VacationCreateController implements Observer {
     private boolean CheckValidity() {
         if((txt_from.getText() == "") || (!isAlphaWord(txt_from.getText().replaceAll(" ",""))) ||
                 (txt_to.getText() == "") || (!isAlphaWord(txt_to.getText().replaceAll(" ",""))) ||
-                (txt_flightCmp.getText() == "") || (!isAlphaWord(txt_flightCmp.getText())) ||
+                (txt_flightCmp.getText().replaceAll(" ","") == "") || (!isAlphaWord(txt_flightCmp.getText())) ||
                 (txt_numOfTrav.getText() == "") || (!isNumeric(txt_numOfTrav.getText())) ||
                 (txt_price.getText() == "") || (!isNumeric(txt_price.getText()))) {
             showAlert("Error","Some fields are empty or incorrect \n please try again");
