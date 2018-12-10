@@ -279,7 +279,6 @@ public class VacationPanelController implements Observer  {
         sleep_included.setCellValueFactory(new PropertyValueFactory<Fly,String>("sleep_included"));
         sleep_rank.setCellValueFactory(new PropertyValueFactory<Fly,String>("sleep_rank"));
 
-
         String dest = tf_dest.getText();
         ArrayList<Fly> flys = model.getVacation();
         for( Fly f : flys){

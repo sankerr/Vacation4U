@@ -73,9 +73,9 @@ public class VacationCreateController implements Observer {
 
         //check if all the fields are ok
         if(CheckValidity()) {
-            String[] values = {model.getVacation_idx(), model.getUser_name(), txt_from.getText(), txt_to.getText(),
+            String[] values = {model.getVacation_idx(), model.getUser_name(), txt_from.getText().toUpperCase(), txt_to.getText().toUpperCase(),
                     date_depart.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
-                    "", txt_flightCmp.getText(), txt_price.getText(), txt_numOfTrav.getText(),
+                    "", txt_flightCmp.getText().toUpperCase(), txt_price.getText(), txt_numOfTrav.getText(),
                     "" + cb_luggage.getValue(), "" + cb_cabinClass.getValue(), "0",
                     "" + cb_vacType.getValue(), "0", "" + (int)((sld_sleepRank.getValue()*5)/100)};
 
@@ -104,7 +104,7 @@ public class VacationCreateController implements Observer {
     private boolean CheckValidity() {
         if((txt_from.getText() == "") || (!isAlphaWord(txt_from.getText().replaceAll(" ",""))) ||
                 (txt_to.getText() == "") || (!isAlphaWord(txt_to.getText().replaceAll(" ",""))) ||
-                (txt_flightCmp.getText().replaceAll(" ","") == "") || (!isAlphaWord(txt_flightCmp.getText())) ||
+                (txt_flightCmp.getText() == "") || (!isAlphaWord(txt_flightCmp.getText().replaceAll(" ",""))) ||
                 (txt_numOfTrav.getText() == "") || (!isNumeric(txt_numOfTrav.getText())) ||
                 (txt_price.getText() == "") || (!isNumeric(txt_price.getText()))) {
             showAlert("Error","Some fields are empty or incorrect \n please try again");
