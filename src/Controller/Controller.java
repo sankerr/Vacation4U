@@ -16,8 +16,6 @@ import javafx.stage.Stage;
 import javax.activation.MimetypesFileTypeMap;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.WritableRaster;
 import java.io.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Observable;
