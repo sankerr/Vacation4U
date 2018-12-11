@@ -71,13 +71,13 @@ public class UpdateController implements Observer{
                 data[1] = txt_username.getText();
                 setUser_name(txt_username.getText());
                 String url = model.get_photo(data[0]);
-                if (!url.equals("")){
+                data[7] = "";
+                if (!url.equals("") && !data[0].equals(data[1])){
                     File f = new File(url);
                     BufferedImage bufferedImage= ImageIO.read(f);
                     String type = url.substring(url.lastIndexOf(".")+1);
                     ImageIO.write(bufferedImage, type, new File("Resources/users_photo/"+data[1]+"."+type));
                     data[7] = "Resources/users_photo/"+data[1]+"."+type;
-
                     f.delete();
                 }
             }
