@@ -67,6 +67,7 @@ public class Model extends Observable implements IModel {
             File f = new File(url);
             System.out.println(f.delete());
         }
+
         db.Delete("USERS","User_name",userName);
         //notify to the RUD Controller that the user deleted so the user
         //will exit to the main menu
