@@ -1,5 +1,10 @@
 package Model;
 
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import java.util.Observable;
@@ -57,6 +62,11 @@ public class Model extends Observable implements IModel {
 
     @Override
     public void deleteUser(String userName) {
+        String url = get_photo(userName);
+        if (!url.equals("")){
+            File f = new File(url);
+            System.out.println(f.delete());
+        }
         db.Delete("USERS","User_name",userName);
         //notify to the RUD Controller that the user deleted so the user
         //will exit to the main menu
@@ -64,6 +74,15 @@ public class Model extends Observable implements IModel {
         Object[] args = {"user deleted"};
         notifyObservers(args);
 
+    }
+
+    @Override
+    public String get_photo(String userName){
+        String url = "";
+        ArrayList<String[]> select  = db.Read("USERS","User_name",userName);
+        String[] str = select.get(0);
+        url = str[6];
+        return url;
     }
 
     @Override
@@ -78,6 +97,8 @@ public class Model extends Observable implements IModel {
             db.Update("USERS", "City", updateData[5], "User_name", updateData[0]);
         if(!updateData[6].equals(""))
             db.Update("USERS", "Birthday", updateData[6], "User_name", updateData[0]);
+        if(!updateData[7].equals(""))
+            db.Update("USERS", "Photo", updateData[7], "User_name", updateData[0]);
         if(!updateData[1].equals(""))
             db.Update("USERS", "User_name", updateData[1], "User_name", updateData[0]);
 

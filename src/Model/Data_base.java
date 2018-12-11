@@ -1,5 +1,9 @@
 package Model;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.*;
 
@@ -40,7 +44,8 @@ public class Data_base {
                     " Birthday DATE NOT NULL, " +
                     " First_name VARCHAR(20) NOT NULL, " +
                     " Last_name VARCHAR(20) NOT NULL, " +
-                    " City VARCHAR(30) NOT NULL)";
+                    " City VARCHAR(30) NOT NULL," +
+                    " Photo VARCHAR )";
             stmt.executeUpdate(sql);
             stmt.close();
             c.close();
@@ -116,7 +121,6 @@ public class Data_base {
         }
     }
 
-
     public boolean Insert(String table, String[] values) {
         Connection c = null;
         Statement stmt = null;
@@ -124,7 +128,7 @@ public class Data_base {
         try {
             String sql = "";
             if (table == "USERS")
-                sql = "INSERT INTO USERS (User_name,Password,Birthday,First_name,Last_name,City) VALUES (";
+                sql = "INSERT INTO USERS (User_name,Password,Birthday,First_name,Last_name,City,Photo) VALUES (";
             else if (table == "VACATION") {
                 sql = "INSERT INTO VACATION (Vacation_IDX,User_name,FlyFrom,Dest,Start_date,End_date," +
                         "Flight_company,Price,Num_of_ticket,Luggage,ticket_type,To_way," +
@@ -182,8 +186,10 @@ public class Data_base {
                     String f_Name = rs.getString("First_name");
                     String l_Name = rs.getString("Last_name");
                     String city = rs.getString("City");
+                    String Photo = rs.getString("Photo");
 
-                    String[] str = {user_Name, password, ""+b_Date, f_Name, l_Name, city};
+
+                    String[] str = {user_Name, password, ""+b_Date, f_Name, l_Name, city, Photo};
                     ans.add(str);
                     //ans += user_Name + " " + password + " " + b_Date + " " + f_Name + " " + l_Name + " " + city+"\n\r";
                 }
@@ -192,7 +198,7 @@ public class Data_base {
                 c.close();
             }
         } catch (Exception e) {
-            //System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            e.printStackTrace();
 
         }
 

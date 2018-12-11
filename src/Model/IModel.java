@@ -1,5 +1,6 @@
 package Model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public interface IModel {
@@ -21,4 +22,5 @@ public interface IModel {
     ArrayList<Fly>  getVacationToDelete();
 
     void makePayment(String[] values);
+    String get_photo(String userName);
 }

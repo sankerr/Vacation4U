@@ -2,26 +2,23 @@ package Controller;
 
 import Model.IModel;
 import Model.Model;
-import View.*;
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URL;
+import java.io.InputStream;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.ResourceBundle;
 
 public class RUDController implements Observer{
 
@@ -35,14 +32,27 @@ public class RUDController implements Observer{
 
     public javafx.scene.control.MenuBar menu;
     public javafx.scene.image.ImageView iv_about;
+    public javafx.scene.image.ImageView photo_img;
 
 
     public void setModel(IModel model) { this.model = model; }
 
     public void setAbout(){
         try {
-            Image logo = new Image(Controller.class.getClassLoader().getResourceAsStream("about_company.jpg"));
+            InputStream is_about = new FileInputStream("Resources/about_company.jpg");
+            Image logo = new Image(is_about);
             iv_about.setImage(logo);
+
+            String url = model.get_photo(model.getUser_name());
+            if (!url.equals("")){
+                File f = new File(url);
+                InputStream is = new FileInputStream(url);
+                Image user_img = new Image(is);
+                photo_img.setImage(user_img);
+                is.close();
+            }
+
+
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -128,7 +138,6 @@ public class RUDController implements Observer{
             if(buttonType == yesButton){
                 model.deleteUser(model.getUser_name());
             } });
-
     }
 
     public void sign_out(){

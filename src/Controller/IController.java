@@ -1,7 +1,9 @@
 package Controller;
 
+import java.io.IOException;
+
 public interface IController {
 
     void login();
-    void signUp();
+    void signUp() throws IOException;
 }

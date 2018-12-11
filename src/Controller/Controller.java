@@ -3,16 +3,22 @@ package Controller;
 import Model.IModel;
 import Model.Model;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+
+import javax.activation.MimetypesFileTypeMap;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.awt.image.WritableRaster;
+import java.io.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Observable;
 import java.util.Observer;
@@ -27,6 +33,8 @@ public class Controller implements IController, Observer {
     // buttons
     public javafx.scene.control.Button btn_login;
     public javafx.scene.control.Button btn_sign_up;
+    public javafx.scene.control.Button btn_photo;
+    public javafx.scene.control.CheckBox photo_select;
     // text fields
     public javafx.scene.control.TextField txt_id_user;
     public javafx.scene.control.PasswordField txt_id_password;
@@ -35,6 +43,7 @@ public class Controller implements IController, Observer {
     public javafx.scene.control.TextField txt_new_username;
     public javafx.scene.control.TextField txt_user_city;
     public javafx.scene.control.PasswordField txt_new_user_password;
+    public String photo_path = "";
     // date picker
     public javafx.scene.control.DatePicker date_picker;
     // logo image
@@ -67,7 +76,37 @@ public class Controller implements IController, Observer {
                 txt_new_user_password.getText().isEmpty() ||
                 date_picker.getValue() == null);
         btn_sign_up.setDisable(releasedSignUp);
+        onKeyReleasedLoadPhoto();
+    }
 
+    public void onKeyReleasedLoadPhoto(){
+        boolean releasedLoadPhoto = (txt_new_username.getText().isEmpty());
+        btn_photo.setDisable(releasedLoadPhoto);
+
+    }
+
+    //add photo button
+    public void loadPhoto() throws IOException {
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Choose photo file");
+        File file = fc.showOpenDialog(null);
+
+        if (file != null) {
+            photo_path = file.getAbsolutePath();
+            File f = new File(photo_path);
+            String type = new MimetypesFileTypeMap().getContentType(f).split("/")[0];
+            if (type.equals("image")){
+                photo_select.setSelected(true);
+            }
+            else{
+                photo_path = "";
+                showAlert("Error", "Please select a valid image file");
+            }
+
+        }
+        else {
+            photo_select.setSelected(false);
+        }
     }
 
     //login button function
@@ -76,10 +115,18 @@ public class Controller implements IController, Observer {
     }
 
     //sign up button function
-    public void signUp () {
+    public void signUp () throws IOException {
+        if (!photo_path.equals("")){
+            File f = new File(photo_path);
+            BufferedImage bufferedImage= ImageIO.read(f);
+            String type = photo_path.substring(photo_path.lastIndexOf(".")+1);
+            ImageIO.write(bufferedImage, type, new File("Resources/users_photo/"+txt_new_username.getText()+"."+type));
+            photo_path = "Resources/users_photo/"+txt_new_username.getText()+"."+type;
+        }
+
         String[] values = {txt_new_username.getText() , txt_new_user_password.getText()
                 , date_picker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-                , txt_user_first_name.getText(), txt_user_last_name.getText(), txt_user_city.getText()};
+                , txt_user_first_name.getText(), txt_user_last_name.getText(), txt_user_city.getText(), photo_path};
         model.signUp(values);
     }
 
@@ -127,7 +174,7 @@ public class Controller implements IController, Observer {
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Vacation4U App");
-            stage.setScene(new Scene(root, 600, 450));
+            stage.setScene(new Scene(root, 690, 450));
             root.setStyle("-fx-background-color: white");
 
             if(rudController == null){

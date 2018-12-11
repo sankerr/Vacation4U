@@ -5,6 +5,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -39,7 +47,7 @@ public class UpdateController implements Observer{
 
     public void setUser_name(String user_name){ model.setUser_name(user_name); }
 
-    public void edit(){
+    public void edit() throws IOException {
         if(txt_username.getText().isEmpty() && txt_password.getText().isEmpty() &&
                 txt_firstname.getText().isEmpty() && txt_lastname.getText().isEmpty() &&
                 txt_city.getText().isEmpty() && datePicker_date_of_birth.valueProperty().isNull().get()){
@@ -57,15 +65,26 @@ public class UpdateController implements Observer{
             alert.showAndWait();
         }
         else {
-            String[] data = new String[7];
+            String[] data = new String[8];
             data[0] = model.getUser_name();
             if(!txt_username.getText().isEmpty()) {
                 data[1] = txt_username.getText();
                 setUser_name(txt_username.getText());
-            }
-            else
-                data[1]="";
+                String url = model.get_photo(data[0]);
+                if (!url.equals("")){
+                    File f = new File(url);
+                    BufferedImage bufferedImage= ImageIO.read(f);
+                    String type = url.substring(url.lastIndexOf(".")+1);
+                    ImageIO.write(bufferedImage, type, new File("Resources/users_photo/"+data[1]+"."+type));
+                    data[7] = "Resources/users_photo/"+data[1]+"."+type;
 
+                    f.delete();
+                }
+            }
+            else {
+                data[1] = "";
+                data[7] = "";
+            }
             if(!txt_password.getText().isEmpty())
                 data[2] = txt_password.getText();
             else
