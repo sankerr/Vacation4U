@@ -1,12 +1,16 @@
 package Model;
 
-import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public interface IModel {
 
     void login(String userName , String userPassword);
     void signUp(String[] values);
+    boolean legalUserName(String userName);
+    boolean legalPassword(String userPassword);
+    boolean legalUserBirthday(LocalDate userBirthday);
+    boolean legalVacationDate(LocalDate vacationDate);
     void search(String userName);
     void deleteUser(String userName);
     void updateUserData(String[] updateData);
@@ -14,13 +18,22 @@ public interface IModel {
     String getUser_name();
     void setUser_name(String user_name);
     ArrayList<String[]> bringDetailsOfUser (String user);
-
+    void exchangeVacation(String otherUsr_VacatinIDX,String exchangeMe);
     void createVacation(String[] values);
     String getVacation_idx();
+    String getTransaction_idx();
     void deleteVacation(String deleteMe);
-    ArrayList<Fly>  getVacation();
-    ArrayList<Fly>  getVacationToDelete();
-
+    void deleteRequest(String deleteMe);
+    ArrayList<Fly> getVacation();
+    Fly getVacationByIndex(int index);
+    ArrayList<Fly> getVacationToDelete();
+    ArrayList<Request> getMyRequests();
+    ArrayList<Request> getAllRequests();
     void makePayment(String[] values);
     String get_photo(String userName);
+    String getRequest_idx();
+    void addToRequestDB(String[] values);
+    ArrayList<Payment> getMyTransactions();
+    void updateStatus(String status);
+
 }
