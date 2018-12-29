@@ -103,7 +103,7 @@ public class VacationCreateController implements Observer {
             showAlert("Error","Depart date must be in the future!");
             return false;
         }
-        else if(date_depart.getValue().isAfter(date_return.getValue())) {
+        else if(cbox_twoWay.isSelected() && date_depart.getValue().isAfter(date_return.getValue())) {
             showAlert("Error","Return date must be after departure date!");
             return false;
         }

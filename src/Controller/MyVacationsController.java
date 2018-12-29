@@ -2,58 +2,99 @@ package Controller;
 
 import Model.Fly;
 import Model.IModel;
+import Model.Request;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-public class VacationDeleteController implements Observer {
+public class MyVacationsController implements Observer {
 
     public ObservableList<Fly> list = FXCollections.observableArrayList();
     public TableView<Fly> table;
-    public Button btn_delete;
+    public Button btn_exchange;
     private IModel model;
     public ChoiceBox txt_idxOfVacation;
 
+    private String otherUsr_VacationIDX;
+    private String otherUsr_Username;
+
     @Override
     public void update(Observable o, Object arg) {
-        try {
-            Object obj = ((Object[])arg)[0];
-            String str = (String)obj;
-            if(str.equals("vacation deleted")) {
-                exitDeletePanel();
-            }
-        } catch (Exception e) {
 
-        }
     }
 
-    public void deleteVacation() {
-        String deleteMe = (""+txt_idxOfVacation.getValue());
+    public void setOtherUsr(String otherUsr_Username, String otherUsr_VacationIDX) {
+        this.otherUsr_VacationIDX = otherUsr_VacationIDX;
+        this.otherUsr_Username = otherUsr_Username;
+    }
+
+    public void ExchangeVacation(ActionEvent actionEvent) {
+        String exchangeMeIDX = (""+txt_idxOfVacation.getValue());
 
         //if the user wrote something:
-        if((deleteMe != null) && (!deleteMe.equals("") && onList(deleteMe))) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setContentText("Are you sure you want to delete this vacation?");
-            ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
-            ButtonType noButton = new ButtonType("No, Sorry", ButtonBar.ButtonData.NO);
-            alert.getButtonTypes().setAll(yesButton, noButton);
+        if((exchangeMeIDX != null) && (!exchangeMeIDX.equals("") && onList(exchangeMeIDX))) {
 
-            //checking what the user choosed
-            alert.showAndWait().ifPresent((buttonType) -> {
-                if (buttonType == yesButton) {
-                    model.deleteVacation(deleteMe);
-                    Stage prim = (Stage) this.btn_delete.getScene().getWindow();
-                    prim.close();
+            //check if this exchange is already exists in the system
+            boolean hasSameRequest = false;
+            boolean hasInverseRequest = false;
+            ArrayList<Request> requests = model.getAllRequests();
+            for( Request req : requests) {
+
+                //check if the same exchange exist
+                if (otherUsr_VacationIDX.equals(req.getSeller_vacation_Index())
+                        & exchangeMeIDX.equals(req.getBuyer_vacation_Index())) {
+                    hasSameRequest = true;
                 }
-            });
+
+                //check if the inverse exchange exist
+                if (otherUsr_VacationIDX.equals(req.getBuyer_vacation_Index())
+                        & exchangeMeIDX.equals(req.getSeller_vacation_Index())) {
+                    hasInverseRequest = true;
+                }
+            }
+            if(hasSameRequest) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Vacation exchange failed");
+                alert.setHeaderText("You have already made this exchange request.\n\r" +
+                        " Please be patient until the seller responds to the request.");
+                alert.showAndWait();
+            }else if(hasInverseRequest){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Vacation exchange failed");
+                alert.setHeaderText("You have received the same exchange deal by the seller.\n\r" +
+                        "Please check your Requests in your Vacation Option.");
+                alert.showAndWait();
+            }else {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setContentText("Are you sure you want to exchange this vacation?");
+                ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+                ButtonType noButton = new ButtonType("No, Sorry", ButtonBar.ButtonData.NO);
+                alert.getButtonTypes().setAll(yesButton, noButton);
+
+                //checking what the user choosed
+                alert.showAndWait().ifPresent((buttonType) -> {
+                    if (buttonType == yesButton) {
+                        String[] values = {model.getRequest_idx(), otherUsr_VacationIDX, (""+txt_idxOfVacation.getValue()),
+                                otherUsr_Username, model.getUser_name(), "exchange"};
+                        model.addToRequestDB(values);
+
+                        Stage prim = (Stage) this.btn_exchange.getScene().getWindow();
+                        prim.close();
+                        Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+                        alert2.setTitle("sent");
+                        alert2.setHeaderText("Your exchange request has been sent to the user");
+                        alert2.showAndWait();
+                    }
+                });
+            }
         }
         else {//if the text field is empty:
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -61,17 +102,25 @@ public class VacationDeleteController implements Observer {
             alert.setHeaderText("Please select a valid vacation number from the table");
             alert.showAndWait();
         }
-
     }
 
-    private void exitDeletePanel() {
-        //Stage stage = (Stage) btn_submit.getScene().getWindow();
-        //stage.close();
-    }
 
 
     public void setModel(IModel model) {
         this.model = model;
+    }
+
+
+
+    private boolean onList(String text) {
+        boolean ans = false;
+        for( Fly f : this.list){
+            if(text.equals(f.getVacation_Index())){
+                ans = true;
+                break;
+            }
+        }
+        return ans;
     }
 
     public void set() {
@@ -184,20 +233,10 @@ public class VacationDeleteController implements Observer {
         else {
             txt_idxOfVacation.setItems(FXCollections.observableArrayList(index));
         }
-
         // enter the cols to the table
         table.getColumns().addAll(vac_idx,user_name,from,to,depart,return_date,flight_company,total_price,num_of_tickets,luggage,ticket_type,vac_type,sleep_included,sleep_rank);
 
     }
 
-    private boolean onList(String text) {
-        boolean ans = false;
-        for( Fly f : this.list){
-            if(text.equals(f.getVacation_Index())){
-                ans = true;
-                break;
-            }
-        }
-        return ans;
-    }
+
 }
