@@ -53,7 +53,7 @@ public class RUDController implements Observer{
                 photo_img.setImage(user_img);
                 is.close();
             }else {
-                InputStream is = new FileInputStream("Resources/emptyUser.jpg");
+                InputStream is = new FileInputStream("Resources/users_photo/emptyUser.jpg");
                 Image user_img = new Image(is);
                 photo_img.setImage(user_img);
                 is.close();
