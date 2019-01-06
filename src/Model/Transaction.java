@@ -2,7 +2,7 @@ package Model;
 
 import javafx.beans.property.SimpleStringProperty;
 
-public class Payment {
+public class Transaction {
 
     private final SimpleStringProperty payment_Index;
     private final SimpleStringProperty seller;
@@ -13,7 +13,7 @@ public class Payment {
     private final SimpleStringProperty status;
 
 
-    public Payment(String payment_Index, String seller, String buyer, String price, String date,
+    public Transaction(String payment_Index, String seller, String buyer, String price, String date,
                     String type, String status) {
         this.payment_Index = new SimpleStringProperty(payment_Index);
         this.price = new SimpleStringProperty(price);

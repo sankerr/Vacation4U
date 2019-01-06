@@ -1,8 +1,9 @@
 package Model;
 
 import javafx.beans.property.SimpleStringProperty;
+import Model.AUser;
 
-public class Fly {
+public class Flight {
 
     private final SimpleStringProperty Vacation_Index;
     private final SimpleStringProperty user_name;
@@ -20,10 +21,10 @@ public class Fly {
     private final SimpleStringProperty sleep_rank;
 
 
-    public Fly(String index, String user_name, String from, String to, String depart,
-               String return_date,  String flight_comp, String price, String num_of_travelers,
-               String luggage, String cabin_class, String vac_type, String sleep_included,
-               String sleep_rank) {
+    public Flight(String index, String user_name, String from, String to, String depart,
+                  String return_date, String flight_comp, String price, String num_of_travelers,
+                  String luggage, String cabin_class, String vac_type, String sleep_included,
+                  String sleep_rank) {
         this.Vacation_Index = new SimpleStringProperty(index);
         this.user_name = new SimpleStringProperty(user_name);
         this.from = new SimpleStringProperty(from);
